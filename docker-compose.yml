@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  it_learning_platform:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./content:/app/content:ro
+      - ./data:/app/data:rw
+    # Use a different default port (9090) and allow for random port assignment
+    ports:
+      - "${HOST_PORT:-0}:${PORT:-8080}"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=${PORT:-8080}
+      - DATABASE_URL=sqlite:/app/data/data.db
+      - SECRET_KEY=${SECRET_KEY:-xKYxsEm29T8XnJQXudM7CmzNBpos2q5bLcGFE1JNyAjf6uBAmCe4Z8Pw3t5kSRdDVvHg}
+      - RUST_LOG=debug
+      - RUST_BACKTRACE=1
+    restart: unless-stopped
+    # disable the healthcheck to prevent automatic restarts
+    healthcheck:
+      disable: true
+    user: "root"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

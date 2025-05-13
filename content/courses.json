@@ -1,0 +1,62 @@
+[
+  {
+    "id": "intro_to_it",
+    "title": "Introduction to Information Technology",
+    "description": "Learn the basics of IT, including computer hardware, software, and basic concepts.",
+    "lessons": [
+      "introduction_to_it",
+      "computer_basics",
+      "operating_systems",
+      "software_basics"
+    ],
+    "level": "beginner"
+  },
+  {
+    "id": "networking_fundamentals",
+    "title": "Networking Fundamentals",
+    "description": "Understanding computer networks, protocols, and internet basics.",
+    "lessons": [
+      "network_basics",
+      "ip_addressing",
+      "network_protocols",
+      "network_security"
+    ],
+    "level": "beginner"
+  },
+  {
+    "id": "programming_basics",
+    "title": "Programming Basics",
+    "description": "Introduction to programming concepts using Python.",
+    "lessons": [
+      "programming_concepts",
+      "python_basics",
+      "data_structures",
+      "control_flow"
+    ],
+    "level": "intermediate"
+  },
+  {
+    "id": "cybersecurity",
+    "title": "Cybersecurity Essentials",
+    "description": "Learn the fundamentals of protecting systems and data.",
+    "lessons": [
+      "security_principles",
+      "threat_modeling",
+      "encryption_basics",
+      "security_best_practices"
+    ],
+    "level": "intermediate"
+  },
+  {
+    "id": "cloud_computing",
+    "title": "Cloud Computing",
+    "description": "Understanding cloud services, deployment models, and major providers.",
+    "lessons": [
+      "cloud_concepts",
+      "aws_basics",
+      "azure_fundamentals",
+      "cloud_security"
+    ],
+    "level": "advanced"
+  }
+]

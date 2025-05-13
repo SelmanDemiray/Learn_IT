@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}All Lessons - IT Learning Platform{% endblock %}
+
+{% block content %}
+<div class="lessons-container">
+    <div class="page-header">
+        <h1>All IT Lessons</h1>
+        <p>Browse our comprehensive collection of IT lessons organized by difficulty level</p>
+    </div>
+    
+    <div class="level-tabs">
+        <button class="tab-button active" onclick="showLevel('all')">All Levels</button>
+        <button class="tab-button" onclick="showLevel('beginner')">Beginner</button>
+        <button class="tab-button" onclick="showLevel('intermediate')">Intermediate</button>
+        <button class="tab-button" onclick="showLevel('advanced')">Advanced</button>
+    </div>
+    
+    {% for level in levels %}
+    <div class="level-section" id="{{ level.name }}-section">
+        <div class="level-banner {{ level.name }}">
+            <h2>{{ level.name | title }} Level</h2>
+            <a href="/lessons/{{ level.name }}" class="btn outline light">View All {{ level.name | title }} Lessons</a>
+        </div>
+        
+        <div class="lessons-grid">
+            {% for lesson in level.lessons %}
+            <div class="lesson-card">
+                <h3 class="lesson-title">{{ lesson.title }}</h3>
+                <p class="lesson-preview">{{ lesson.preview }}</p>
+                <div class="lesson-actions">
+                    <a href="/lessons/{{ lesson.level }}/{{ lesson.id }}" class="btn primary">Start Learning</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+function showLevel(levelName) {
+    // Remove active class from all buttons
+    const buttons = document.querySelectorAll('.tab-button');
+    buttons.forEach(btn => btn.classList.remove('active'));
+    
+    // Add active class to clicked button
+    event.target.classList.add('active');
+    
+    // Show/hide level sections
+    const sections = document.querySelectorAll('.level-section');
+    sections.forEach(section => {
+        if (levelName === 'all' || section.id === levelName + '-section') {
+            section.style.display = 'block';
+        } else {
+            section.style.display = 'none';
+        }
+    });
+}
+</script>
+{% endblock %}

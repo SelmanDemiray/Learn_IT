@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Home - IT Learning Platform{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1>Learn IT from Beginner to Expert</h1>
+    <p>A comprehensive platform for mastering Information Technology skills</p>
+    <div class="cta-buttons">
+        <a href="/courses" class="btn primary">Browse Courses</a>
+        <a href="/lessons" class="btn secondary">View All Lessons</a>
+    </div>
+</div>
+
+<div class="features">
+    <div class="feature-card">
+        <h2>Beginner Friendly</h2>
+        <p>Start from zero knowledge and build strong foundations</p>
+    </div>
+    <div class="feature-card">
+        <h2>Comprehensive</h2>
+        <p>Cover all essential IT topics in a structured way</p>
+    </div>
+    <div class="feature-card">
+        <h2>Hands-on Learning</h2>
+        <p>Practice with real-world examples and projects</p>
+    </div>
+</div>
+
+<div class="level-selection">
+    <h2>Choose Your Level</h2>
+    <div class="level-cards">
+        <a href="/lessons/beginner" class="level-card beginner">
+            <h3>Beginner</h3>
+            <p>For those new to IT</p>
+        </a>
+        <a href="/lessons/intermediate" class="level-card intermediate">
+            <h3>Intermediate</h3>
+            <p>For those with basic IT knowledge</p>
+        </a>
+        <a href="/lessons/advanced" class="level-card advanced">
+            <h3>Advanced</h3>
+            <p>For experienced IT professionals</p>
+        </a>
+    </div>
+</div>
+{% endblock %}

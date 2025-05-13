@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} - IT Learning Platform{% endblock %}
+
+{% block content %}
+<div class="level-container">
+    <div class="level-header {{ level }}">
+        <h1>{{ title }}</h1>
+        <p class="level-description">
+            {% if level == "beginner" %}
+            These lessons are designed for those new to IT, covering fundamental concepts and building a strong foundation.
+            {% elif level == "intermediate" %}
+            These lessons are for those with basic IT knowledge, diving deeper into more complex topics.
+            {% else %}
+            These advanced lessons cover expert-level topics for experienced IT professionals looking to specialize.
+            {% endif %}
+        </p>
+    </div>
+    
+    <div class="lessons-grid">
+        {% for lesson in lessons %}
+        <div class="lesson-card">
+            <h3 class="lesson-title">{{ lesson.title }}</h3>
+            <div class="lesson-actions">
+                <a href="/lessons/{{ level }}/{{ lesson.id }}" class="btn primary">View Lesson</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="level-navigation">
+        <a href="/lessons" class="btn outline">All Lessons</a>
+        
+        <div class="level-switcher">
+            {% if level != "beginner" %}
+            <a href="/lessons/beginner" class="level-link beginner">Beginner</a>
+            {% endif %}
+            
+            {% if level != "intermediate" %}
+            <a href="/lessons/intermediate" class="level-link intermediate">Intermediate</a>
+            {% endif %}
+            
+            {% if level != "advanced" %}
+            <a href="/lessons/advanced" class="level-link advanced">Advanced</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

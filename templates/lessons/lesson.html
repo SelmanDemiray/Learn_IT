@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} - IT Learning Platform{% endblock %}
+
+{% block content %}
+<div class="lesson-container">
+    <div class="lesson-header">
+        <div class="breadcrumbs">
+            <a href="/lessons">Lessons</a> / 
+            <a href="/lessons/{{ level }}">{{ level | title }}</a> / 
+            <span>{{ title }}</span>
+        </div>
+        <div class="level-badge {{ level }}">{{ level }}</div>
+    </div>
+    
+    <div class="lesson-content">
+        {{ html_content | safe }}
+    </div>
+    
+    <div class="lesson-navigation">
+        {% if prev_lesson %}
+        <a href="/lessons/{{ level }}/{{ prev_lesson.id }}" class="nav-button prev-button">
+            <span class="arrow">←</span> Previous: {{ prev_lesson.title }}
+        </a>
+        {% else %}
+        <span></span>
+        {% endif %}
+        
+        <a href="/lessons/{{ level }}" class="nav-button back-button">All {{ level }} lessons</a>
+        
+        {% if next_lesson %}
+        <a href="/lessons/{{ level }}/{{ next_lesson.id }}" class="nav-button next-button">
+            Next: {{ next_lesson.title }} <span class="arrow">→</span>
+        </a>
+        {% else %}
+        <span></span>
+        {% endif %}
+    </div>
+    
+    <div class="lesson-other-resources">
+        <h3>Additional Resources</h3>
+        <ul>
+            <li><a href="#" target="_blank">Further Reading</a></li>
+            <li><a href="#" target="_blank">Practice Exercises</a></li>
+            <li><a href="#" target="_blank">Video Tutorial</a></li>
+        </ul>
+    </div>
+    
+    <div class="lesson-comments">
+        <h3>Questions & Comments</h3>
+        <div class="comment-form">
+            <textarea placeholder="Share your thoughts or questions about this lesson..."></textarea>
+            <button class="btn primary">Submit Comment</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add table of contents
+        const headings = document.querySelectorAll('.lesson-content h2, .lesson-content h3');
+        if (headings.length > 2) {
+            const toc = document.createElement('div');
+            toc.className = 'table-of-contents';
+            toc.innerHTML = '<h3>Table of Contents</h3><ul></ul>';
+            
+            headings.forEach((heading, index) => {
+                // Add ID to heading if it doesn't have one
+                if (!heading.id) {
+                    heading.id = 'heading-' + index;
+                }
+                
+                // Add TOC entry
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = '#' + heading.id;
+                a.textContent = heading.textContent;
+                a.className = heading.tagName === 'H3' ? 'toc-sub' : '';
+                li.appendChild(a);
+                toc.querySelector('ul').appendChild(li);
+            });
+            
+            // Insert TOC after first heading
+            const firstHeading = document.querySelector('.lesson-content h1');
+            if (firstHeading) {
+                firstHeading.parentNode.insertBefore(toc, firstHeading.nextSibling);
+            }
+        }
+        
+        // Add syntax highlighting
+        document.querySelectorAll('pre code').forEach((block) => {
+            block.classList.add('hljs');
+        });
+        
+        // Add smooth scroll for TOC links
+        document.querySelectorAll('.table-of-contents a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

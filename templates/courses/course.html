@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} - IT Learning Platform{% endblock %}
+
+{% block content %}
+<div class="course-container">
+    <div class="course-header {{ course.level }}">
+        <div class="course-title-section">
+            <h1>{{ course.title }}</h1>
+            <div class="level-badge {{ course.level }}">{{ course.level }}</div>
+        </div>
+        <p class="course-description">{{ course.description }}</p>
+    </div>
+    
+    <div class="course-content">
+        <div class="course-info">
+            <div class="info-box">
+                <h3>Course Overview</h3>
+                <p>This course contains {{ lessons|length }} lessons designed to help you master {{ course.title }}.</p>
+                <div class="progress-container">
+                    <div class="progress-label">Course Progress</div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-text">0% Complete</div>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <h3>What You'll Learn</h3>
+                <ul class="learning-objectives">
+                    {% if course.level == "beginner" %}
+                        <li>Understand foundational concepts of {{ course.title }}</li>
+                        <li>Learn the basic terminology and principles</li>
+                        <li>Build practical skills through simple exercises</li>
+                        <li>Prepare for more advanced topics in this area</li>
+                    {% elif course.level == "intermediate" %}
+                        <li>Deepen your understanding of core concepts</li>
+                        <li>Apply knowledge to solve real-world problems</li>
+                        <li>Develop more complex skills and techniques</li>
+                        <li>Build professional-level projects</li>
+                    {% else %}
+                        <li>Master advanced topics and specialized techniques</li>
+                        <li>Develop expert-level problem-solving skills</li>
+                        <li>Learn industry best practices and optimization</li>
+                        <li>Prepare for professional certification or roles</li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        
+        <div class="course-lessons">
+            <h2>Lessons</h2>
+            <div class="lessons-list">
+                {% for lesson in lessons %}
+                <div class="lesson-card">
+                    <h3 class="lesson-title">{{ lesson.title }}</h3>
+                    <div class="lesson-preview">
+                        {{ lesson.html_preview | safe }}
+                    </div>
+                    <a href="/lessons/{{ course.level }}/{{ lesson.id }}" class="btn primary">Start Lesson</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animation for lesson cards
+        const elements = document.querySelectorAll('.lesson-card');
+        
+        elements.forEach((el, index) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            
+            setTimeout(() => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            }, 100 * index);
+        });
+    });
+</script>
+{% endblock %}

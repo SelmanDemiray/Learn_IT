@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Courses - IT Learning Platform{% endblock %}
+
+{% block content %}
+<div class="courses-container">
+    <div class="page-header">
+        <h1>IT Learning Courses</h1>
+        <p>Select a course to begin your learning journey</p>
+    </div>
+    
+    <section class="course-section">
+        <h2>Beginner Courses</h2>
+        <div class="course-grid">
+            {% for course in beginner_courses %}
+            <a href="/courses/{{ course.id }}" class="course-card">
+                <div class="course-card-header beginner">
+                    <div class="level-badge beginner">Beginner</div>
+                </div>
+                <div class="course-card-body">
+                    <h3 class="course-card-title">{{ course.title }}</h3>
+                    <p class="course-card-desc">{{ course.description }}</p>
+                    <div class="lesson-count">{{ course.lessons|length }} lessons</div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 0%"></div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+    
+    <section class="course-section">
+        <h2>Intermediate Courses</h2>
+        <div class="course-grid">
+            {% for course in intermediate_courses %}
+            <a href="/courses/{{ course.id }}" class="course-card">
+                <div class="course-card-header intermediate">
+                    <div class="level-badge intermediate">Intermediate</div>
+                </div>
+                <div class="course-card-body">
+                    <h3 class="course-card-title">{{ course.title }}</h3>
+                    <p class="course-card-desc">{{ course.description }}</p>
+                    <div class="lesson-count">{{ course.lessons|length }} lessons</div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 0%"></div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+    
+    <section class="course-section">
+        <h2>Advanced Courses</h2>
+        <div class="course-grid">
+            {% for course in advanced_courses %}
+            <a href="/courses/{{ course.id }}" class="course-card">
+                <div class="course-card-header advanced">
+                    <div class="level-badge advanced">Advanced</div>
+                </div>
+                <div class="course-card-body">
+                    <h3 class="course-card-title">{{ course.title }}</h3>
+                    <p class="course-card-desc">{{ course.description }}</p>
+                    <div class="lesson-count">{{ course.lessons|length }} lessons</div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 0%"></div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}
