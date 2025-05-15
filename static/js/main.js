@@ -60,7 +60,31 @@ document.addEventListener('DOMContentLoaded', function() {
             observer.observe(el);
         });
     }
+    
+    // Initialize progress bars
+    initProgressBars();
 });
+
+// Initialize progress bars with animation
+function initProgressBars() {
+    const progressBars = document.querySelectorAll('.progress-bar');
+    
+    progressBars.forEach(bar => {
+        const progress = bar.querySelector('.progress');
+        if (!progress) return;
+        
+        const targetWidth = progress.getAttribute('data-target-width') || progress.style.width;
+        
+        // Start at 0
+        progress.style.width = '0%';
+        
+        // Animate to target width
+        setTimeout(() => {
+            progress.style.transition = 'width 1s ease-in-out';
+            progress.style.width = targetWidth;
+        }, 300);
+    });
+}
 
 // Helper functions for course progress
 function updateProgress(courseId, lessonId, completed) {

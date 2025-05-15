@@ -4,53 +4,64 @@
 
 {% block content %}
 <div class="lesson-container">
-    <div class="lesson-header">
-        <div class="breadcrumbs">
-            <a href="/lessons">Lessons</a> / 
-            <a href="/lessons/{{ level }}">{{ level | title }}</a> / 
-            <span>{{ title }}</span>
+    <aside class="lesson-sidebar">
+        <div class="sticky-sidebar">
+            <div class="table-of-contents">
+                <h3>In This Lesson</h3>
+                <div id="toc-container"></div>
+            </div>
         </div>
-        <div class="level-badge {{ level }}">{{ level }}</div>
-    </div>
+    </aside>
     
-    <div class="lesson-content">
-        {{ html_content | safe }}
-    </div>
-    
-    <div class="lesson-navigation">
-        {% if prev_lesson %}
-        <a href="/lessons/{{ level }}/{{ prev_lesson.id }}" class="nav-button prev-button">
-            <span class="arrow">←</span> Previous: {{ prev_lesson.title }}
-        </a>
-        {% else %}
-        <span></span>
-        {% endif %}
+    <div class="lesson-main">
+        <div class="lesson-header">
+            <div class="breadcrumbs">
+                <a href="/lessons">Lessons</a> / 
+                <a href="/lessons/{{ level }}">{{ level | title }}</a> / 
+                <span>{{ title }}</span>
+            </div>
+            <div class="level-badge {{ level }}">{{ level }}</div>
+        </div>
         
-        <a href="/lessons/{{ level }}" class="nav-button back-button">All {{ level }} lessons</a>
+        <div class="lesson-content">
+            {{ html_content | safe }}
+        </div>
         
-        {% if next_lesson %}
-        <a href="/lessons/{{ level }}/{{ next_lesson.id }}" class="nav-button next-button">
-            Next: {{ next_lesson.title }} <span class="arrow">→</span>
-        </a>
-        {% else %}
-        <span></span>
-        {% endif %}
-    </div>
-    
-    <div class="lesson-other-resources">
-        <h3>Additional Resources</h3>
-        <ul>
-            <li><a href="#" target="_blank">Further Reading</a></li>
-            <li><a href="#" target="_blank">Practice Exercises</a></li>
-            <li><a href="#" target="_blank">Video Tutorial</a></li>
-        </ul>
-    </div>
-    
-    <div class="lesson-comments">
-        <h3>Questions & Comments</h3>
-        <div class="comment-form">
-            <textarea placeholder="Share your thoughts or questions about this lesson..."></textarea>
-            <button class="btn primary">Submit Comment</button>
+        <div class="lesson-navigation">
+            {% if prev_lesson %}
+            <a href="/lessons/{{ level }}/{{ prev_lesson.id }}" class="nav-button prev-button">
+                <span class="arrow">←</span> Previous: {{ prev_lesson.title }}
+            </a>
+            {% else %}
+            <span></span>
+            {% endif %}
+            
+            <a href="/lessons/{{ level }}" class="nav-button back-button">All {{ level }} lessons</a>
+            
+            {% if next_lesson %}
+            <a href="/lessons/{{ level }}/{{ next_lesson.id }}" class="nav-button next-button">
+                Next: {{ next_lesson.title }} <span class="arrow">→</span>
+            </a>
+            {% else %}
+            <span></span>
+            {% endif %}
+        </div>
+        
+        <div class="lesson-other-resources">
+            <h3>Additional Resources</h3>
+            <ul>
+                <li><a href="#" target="_blank">Further Reading</a></li>
+                <li><a href="#" target="_blank">Practice Exercises</a></li>
+                <li><a href="#" target="_blank">Video Tutorial</a></li>
+            </ul>
+        </div>
+        
+        <div class="lesson-comments">
+            <h3>Questions & Comments</h3>
+            <div class="comment-form">
+                <textarea placeholder="Share your thoughts or questions about this lesson..."></textarea>
+                <button class="btn primary">Submit Comment</button>
+            </div>
         </div>
     </div>
 </div>
@@ -59,56 +70,80 @@
 {% block scripts %}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Add table of contents
-        const headings = document.querySelectorAll('.lesson-content h2, .lesson-content h3');
-        if (headings.length > 2) {
-            const toc = document.createElement('div');
-            toc.className = 'table-of-contents';
-            toc.innerHTML = '<h3>Table of Contents</h3><ul></ul>';
-            
-            headings.forEach((heading, index) => {
-                // Add ID to heading if it doesn't have one
-                if (!heading.id) {
-                    heading.id = 'heading-' + index;
-                }
-                
-                // Add TOC entry
-                const li = document.createElement('li');
-                const a = document.createElement('a');
-                a.href = '#' + heading.id;
-                a.textContent = heading.textContent;
-                a.className = heading.tagName === 'H3' ? 'toc-sub' : '';
-                li.appendChild(a);
-                toc.querySelector('ul').appendChild(li);
-            });
-            
-            // Insert TOC after first heading
-            const firstHeading = document.querySelector('.lesson-content h1');
-            if (firstHeading) {
-                firstHeading.parentNode.insertBefore(toc, firstHeading.nextSibling);
-            }
-        }
+        // Generate table of contents
+        generateTableOfContents();
         
         // Add syntax highlighting
         document.querySelectorAll('pre code').forEach((block) => {
             block.classList.add('hljs');
         });
         
-        // Add smooth scroll for TOC links
-        document.querySelectorAll('.table-of-contents a').forEach(link => {
-            link.addEventListener('click', function(e) {
+        // Add code copy functionality
+        setupCodeCopy();
+    });
+    
+    function generateTableOfContents() {
+        const content = document.querySelector('.lesson-content');
+        const toc = document.querySelector('#toc-container');
+        
+        if (!content || !toc) return;
+        
+        const headings = content.querySelectorAll('h2, h3');
+        if (headings.length < 3) return;
+        
+        const tocList = document.createElement('ul');
+        tocList.className = 'toc-list';
+        
+        headings.forEach((heading, index) => {
+            // Add ID to heading if it doesn't have one
+            if (!heading.id) {
+                heading.id = `section-${index}`;
+            }
+            
+            const listItem = document.createElement('li');
+            listItem.className = heading.tagName === 'H3' ? 'toc-item toc-subitem' : 'toc-item';
+            
+            const link = document.createElement('a');
+            link.href = `#${heading.id}`;
+            link.textContent = heading.textContent;
+            
+            // Add click handler for smooth scrolling
+            link.addEventListener('click', e => {
                 e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
+                const targetElement = document.getElementById(heading.id);
                 
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 100,
-                        behavior: 'smooth'
-                    });
-                }
+                window.scrollTo({
+                    top: targetElement.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            });
+            
+            listItem.appendChild(link);
+            tocList.appendChild(listItem);
+        });
+        
+        toc.appendChild(tocList);
+    }
+    
+    function setupCodeCopy() {
+        document.querySelectorAll('pre').forEach(block => {
+            const button = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copy';
+            block.appendChild(button);
+            
+            button.addEventListener('click', function() {
+                const code = block.querySelector('code').textContent;
+                navigator.clipboard.writeText(code).then(() => {
+                    button.textContent = 'Copied!';
+                    setTimeout(() => {
+                        button.textContent = 'Copy';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Could not copy text: ', err);
+                });
             });
         });
-    });
+    }
 </script>
 {% endblock %}

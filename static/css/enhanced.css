@@ -1,0 +1,330 @@
+/* Enhanced styling for IT Learning Platform */
+
+/* Typography improvements */
+:root {
+    /* Typography variables */
+    --heading-font: 'Poppins', sans-serif;
+    --body-font: 'Open Sans', sans-serif;
+    --code-font: 'Fira Code', monospace;
+    
+    /* Consistent spacing system */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+}
+
+body {
+    font-family: var(--body-font);
+    line-height: 1.6;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.03'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v94h1V6h94V5H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--heading-font);
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: var(--space-md);
+}
+
+code, pre {
+    font-family: var(--code-font);
+}
+
+/* Header and Navigation improvements */
+header {
+    background-color: var(--dark-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.75rem var(--space-md);
+}
+
+.logo {
+    font-family: var(--heading-font);
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}
+
+nav ul li a {
+    font-weight: 500;
+    padding: 0.75rem 1.25rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+nav ul li.active a {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Modern Button Styling */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    font-family: var(--body-font);
+}
+
+.btn.primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn.primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn.outline {
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    background-color: transparent;
+}
+
+.btn.outline:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Hero section improvements */
+.hero {
+    background: linear-gradient(135deg, var(--dark-color) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: var(--space-3xl) var(--space-xl);
+    text-align: center;
+    border-radius: var(--border-radius);
+    margin-bottom: var(--space-xl);
+}
+
+/* Card Design Improvements */
+.course-card, .lesson-card, .feature-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.course-card:hover, .lesson-card:hover, .feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05);
+}
+
+.course-card-body, .lesson-card-body {
+    padding: var(--space-lg);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.lesson-actions, .course-card-footer {
+    margin-top: auto;
+    padding-top: var(--space-md);
+}
+
+/* Level Badge Improvements */
+.level-badge {
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    letter-spacing: 0.5px;
+}
+
+.level-badge:before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+/* Lesson container layout */
+.lesson-container {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-lg);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+@media (min-width: 992px) {
+    .lesson-container {
+        grid-template-columns: 240px minmax(0, 1fr);
+    }
+}
+
+.lesson-sidebar {
+    display: none;
+}
+
+@media (min-width: 992px) {
+    .lesson-sidebar {
+        display: block;
+    }
+    
+    .sticky-sidebar {
+        position: sticky;
+        top: 100px;
+    }
+}
+
+.lesson-main {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    padding: var(--space-xl);
+}
+
+/* Enhanced Code Blocks */
+.lesson-content pre {
+    background-color: #282c34;
+    color: #abb2bf;
+    padding: var(--space-md);
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: var(--space-lg) 0;
+    position: relative;
+}
+
+.copy-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #abb2bf;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.copy-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Table of Contents */
+.table-of-contents {
+    background-color: #f8f8f8;
+    border-radius: var(--border-radius);
+    padding: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.table-of-contents h3 {
+    margin-top: 0;
+    margin-bottom: var(--space-sm);
+    font-size: 1.1rem;
+    color: var(--dark-color);
+    padding-bottom: var(--space-xs);
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.toc-item {
+    margin-bottom: var(--space-xs);
+}
+
+.toc-item a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: inline-block;
+    padding: var(--space-xs) 0;
+    transition: transform 0.2s ease;
+}
+
+.toc-item a:hover {
+    transform: translateX(3px);
+}
+
+.toc-subitem {
+    padding-left: var(--space-md);
+}
+
+/* Progress bar animations */
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background-color: #eee;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: var(--space-sm);
+}
+
+.progress {
+    height: 100%;
+    background-color: var(--secondary-color);
+    border-radius: 3px;
+    width: 0; /* Start at 0 and animate to target width */
+    transition: width 1s ease-in-out;
+}
+
+/* Features section spacing */
+.features {
+    margin: var(--space-2xl) 0;
+}
+
+.feature-card {
+    padding: var(--space-xl);
+}
+
+/* Level cards improvements */
+.level-selection {
+    margin: var(--space-2xl) 0;
+}
+
+.level-card {
+    padding: var(--space-xl);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .hero {
+        padding: var(--space-xl) var(--space-md);
+    }
+    
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+    
+    .btn {
+        padding: 0.6rem 1.2rem;
+    }
+}
