@@ -6,30 +6,47 @@
 <div class="lessons-container">
     <div class="page-header">
         <h1>All IT Lessons</h1>
-        <p>Browse our comprehensive collection of IT lessons organized by difficulty level</p>
+        <p class="subtitle">Browse our comprehensive collection of IT lessons organized by difficulty level</p>
     </div>
     
-    <div class="level-tabs">
-        <button class="tab-button active" onclick="showLevel('all')">All Levels</button>
-        <button class="tab-button" onclick="showLevel('beginner')">Beginner</button>
-        <button class="tab-button" onclick="showLevel('intermediate')">Intermediate</button>
-        <button class="tab-button" onclick="showLevel('advanced')">Advanced</button>
+    <div class="level-filters">
+        <button class="filter-button active" onclick="showLevel('all')">All Levels</button>
+        <button class="filter-button beginner-filter" onclick="showLevel('beginner')">Beginner</button>
+        <button class="filter-button intermediate-filter" onclick="showLevel('intermediate')">Intermediate</button>
+        <button class="filter-button advanced-filter" onclick="showLevel('advanced')">Advanced</button>
     </div>
     
     {% for level in levels %}
     <div class="level-section" id="{{ level.name }}-section">
         <div class="level-banner {{ level.name }}">
-            <h2>{{ level.name | title }} Level</h2>
-            <a href="/lessons/{{ level.name }}" class="btn outline light">View All {{ level.name | title }} Lessons</a>
+            <div class="banner-content">
+                <h2>{{ level.name | title }} Level</h2>
+                <p class="level-description">
+                    {% if level.name == "beginner" %}
+                    Start your IT journey with foundational concepts and principles.
+                    {% elif level.name == "intermediate" %}
+                    Build on your knowledge with more complex topics and practical applications.
+                    {% else %}
+                    Master specialized topics and expert-level concepts in information technology.
+                    {% endif %}
+                </p>
+                <a href="/lessons/{{ level.name }}" class="btn outline light">View All {{ level.name | title }} Lessons</a>
+            </div>
+            <div class="level-icon {{ level.name }}-icon"></div>
         </div>
         
         <div class="lessons-grid">
             {% for lesson in level.lessons %}
             <div class="lesson-card">
-                <h3 class="lesson-title">{{ lesson.title }}</h3>
-                <p class="lesson-preview">{{ lesson.preview }}</p>
-                <div class="lesson-actions">
-                    <a href="/lessons/{{ lesson.level }}/{{ lesson.id }}" class="btn primary">Start Learning</a>
+                <div class="lesson-card-header {{ level.name }}">
+                    <div class="level-badge {{ level.name }}">{{ level.name }}</div>
+                </div>
+                <div class="lesson-card-body">
+                    <h3 class="lesson-title">{{ lesson.title }}</h3>
+                    <p class="lesson-preview">{{ lesson.preview }}</p>
+                    <div class="lesson-actions">
+                        <a href="/lessons/{{ lesson.level }}/{{ lesson.id }}" class="btn primary">Start Learning</a>
+                    </div>
                 </div>
             </div>
             {% endfor %}
@@ -41,7 +58,7 @@
 <script>
 function showLevel(levelName) {
     // Remove active class from all buttons
-    const buttons = document.querySelectorAll('.tab-button');
+    const buttons = document.querySelectorAll('.filter-button');
     buttons.forEach(btn => btn.classList.remove('active'));
     
     // Add active class to clicked button
