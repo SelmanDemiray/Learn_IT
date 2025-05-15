@@ -1,11 +1,10 @@
 use actix_web::{web, HttpResponse, Result};
+use tera::Tera;
 use std::fs;
 use std::path::Path;
-use tera::Tera;
-use serde_json::from_str;
 use crate::utils::markdown::convert_markdown_to_html;
-
-use super::model::Course;
+use serde_json::from_str;
+use crate::modules::courses::models::Course;
 
 pub async fn get_courses(tmpl: web::Data<Tera>) -> Result<HttpResponse> {
     let courses_path = "content/courses.json";

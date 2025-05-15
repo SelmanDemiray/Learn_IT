@@ -1,5 +1,3 @@
-use sqlx::sqlite::{SqlitePool};
-
 // Either remove or use these functions
 // pub async fn init_database() -> SqlitePool {
 //    ...

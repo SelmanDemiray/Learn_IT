@@ -1,18 +1,10 @@
-use actix_web::{web, HttpResponse, Result};
-
-async fn index() -> Result<HttpResponse> {
-    Ok(HttpResponse::Ok().body("Courses index"))
-}
-
-async fn show(path: web::Path<String>) -> Result<HttpResponse> {
-    let id = path.into_inner();
-    Ok(HttpResponse::Ok().body(format!("Course details for {}", id)))
-}
+use actix_web::web;
+use crate::modules::courses::handler::{get_courses, get_course};
 
 pub fn configure(cfg: &mut web::ServiceConfig) {
     cfg.service(
         web::scope("/courses")
-            .route("", web::get().to(index))
-            .route("/{id}", web::get().to(show))
+            .route("", web::get().to(get_courses))
+            .route("/{id}", web::get().to(get_course))
     );
 }

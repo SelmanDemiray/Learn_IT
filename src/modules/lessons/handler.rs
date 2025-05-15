@@ -1,10 +1,10 @@
 use actix_web::{web, HttpResponse, Result};
+use tera::Tera;
 use std::fs;
 use std::path::Path;
-use tera::Tera;
 use crate::utils::markdown::convert_markdown_to_html;
-
-use super::model::Lesson;
+use serde_json::from_str;
+use crate::modules::lessons::models::Lesson;
 
 pub async fn get_lessons(tmpl: web::Data<Tera>) -> Result<HttpResponse> {
     let mut context = tera::Context::new();
@@ -34,12 +34,13 @@ pub async fn get_lessons(tmpl: web::Data<Tera>) -> Result<HttpResponse> {
                                 content.clone() 
                             };
                             
-                            lessons.push(serde_json::json!({
-                                "id": id,
-                                "title": title,
-                                "level": level,
-                                "preview": preview
-                            }));
+                            lessons.push(Lesson {
+                                id: id.to_string(),
+                                title: title.to_string(),
+                                level: level.to_string(),
+                                content: content.clone(),
+                                preview: preview
+                            });
                         }
                     }
                 }
@@ -81,10 +82,19 @@ pub async fn get_lessons_by_level(
                     if file_name.ends_with(".md") {
                         let id = file_name.trim_end_matches(".md");
                         let title = id.replace("_", " ");
+                        let file_path = format!("{}/{}", content_path, file_name);
+                        let content = fs::read_to_string(&file_path).unwrap_or_default();
+                        let preview = if content.len() > 150 {
+                            format!("{}...", &content[0..150])
+                        } else {
+                            content.clone()
+                        };
                         lessons.push(Lesson {
                             id: id.to_string(),
                             title: title.to_string(),
-                            level: level.clone(),
+                            level: level.to_string(),
+                            content: content.clone(),
+                            preview: preview
                         });
                     }
                 }
@@ -137,10 +147,19 @@ pub async fn get_lesson(
                     if file_name.ends_with(".md") {
                         let lesson_id = file_name.trim_end_matches(".md");
                         let title = lesson_id.replace("_", " ");
+                        let file_path = format!("{}/{}", content_path, file_name);
+                        let content = fs::read_to_string(&file_path).unwrap_or_default();
+                        let preview = if content.len() > 150 {
+                            format!("{}...", &content[0..150])
+                        } else {
+                            content.clone()
+                        };
                         lessons.push(Lesson {
                             id: lesson_id.to_string(),
                             title: title.to_string(),
-                            level: level.clone(),
+                            level: level.to_string(),
+                            content: content.clone(),
+                            preview: preview
                         });
                     }
                 }
