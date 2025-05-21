@@ -3,7 +3,6 @@ use tera::Tera;
 use std::fs;
 use std::path::Path;
 use crate::utils::markdown::convert_markdown_to_html;
-use serde_json::from_str;
 use crate::modules::lessons::models::Lesson;
 
 pub async fn get_lessons(tmpl: web::Data<Tera>) -> Result<HttpResponse> {

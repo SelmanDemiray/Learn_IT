@@ -167,6 +167,65 @@ nav ul li.active a {
     background-color: rgba(255, 255, 255, 0.7);
 }
 
+/* Progress tracking UI */
+.lesson-progress-tracking {
+    margin-top: var(--space-2xl);
+    padding: var(--space-lg);
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    position: relative;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.progress-buttons {
+    display: flex;
+    gap: var(--space-md);
+    margin-top: var(--space-md);
+}
+
+.progress-buttons .btn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.progress-buttons .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.progress-message {
+    margin-top: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: 4px;
+    font-weight: 500;
+    transition: opacity 0.3s ease;
+}
+
+.progress-message.success {
+    background-color: rgba(46, 204, 113, 0.1);
+    color: var(--beginner-color);
+}
+
+.progress-message.error {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: var(--danger-color);
+}
+
+.next-lesson-prompt {
+    margin-top: var(--space-lg);
+    padding: var(--space-md);
+    background-color: rgba(52, 152, 219, 0.1);
+    border-radius: 8px;
+    text-align: center;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 /* Lesson container layout */
 .lesson-container {
     display: grid;
@@ -936,4 +995,172 @@ nav ul li.active a {
     .lesson-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* Enhanced style for search autocomplete */
+.search-autocomplete {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    margin-top: 8px;
+    overflow: hidden;
+    display: none;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.search-focused .search-autocomplete {
+    display: block;
+}
+
+.autocomplete-item {
+    padding: 10px 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.autocomplete-item:hover {
+    background-color: #f5f5f5;
+}
+
+.autocomplete-no-results {
+    padding: 10px 15px;
+    color: #777;
+    font-style: italic;
+}
+
+.item-text {
+    flex-grow: 1;
+}
+
+.item-category {
+    font-size: 0.75em;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 500;
+    color: white;
+    margin-left: 8px;
+}
+
+.item-category.beginner {
+    background-color: var(--beginner-color);
+}
+
+.item-category.intermediate {
+    background-color: var(--intermediate-color);
+}
+
+.item-category.advanced {
+    background-color: var(--danger-color);
+}
+
+/* Improved mobile menu toggle animation */
+.mobile-menu-toggle.active span {
+    transition: transform 0.3s ease, opacity 0.2s ease;
+}
+
+/* Fix for body when menu is open to prevent scrolling */
+body.menu-open {
+    overflow: hidden;
+}
+
+/* Additional styles for dropdown on mobile */
+@media (max-width: 992px) {
+    .dropdown > a:after {
+        content: "›";
+        display: inline-block;
+        margin-left: 8px;
+        transform: rotate(90deg);
+        transition: transform 0.3s;
+    }
+    
+    .dropdown.active > a:after {
+        transform: rotate(-90deg);
+    }
+}
+
+/* Style improvements for auth forms */
+.auth-form .input-wrapper {
+    position: relative;
+    margin-bottom: 4px;
+}
+
+.auth-form .input-wrapper svg {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+}
+
+.auth-form input[type="text"],
+.auth-form input[type="email"],
+.auth-form input[type="password"] {
+    padding-left: 40px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #777;
+    cursor: pointer;
+}
+
+/* Fix buttons in lesson progress tracking */
+.lesson-progress-tracking .progress-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.lesson-progress-tracking .progress-buttons button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.lesson-progress-tracking .progress-buttons button svg {
+    flex-shrink: 0;
+}
+
+.progress-message {
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    transition: opacity 0.3s;
+}
+
+.progress-message.success {
+    background-color: rgba(46, 204, 113, 0.1);
+    color: var(--beginner-color);
+}
+
+.progress-message.error {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: var(--danger-color);
+}
+
+.next-lesson-prompt {
+    margin-top: 15px;
+    padding: 15px;
+    background-color: rgba(52, 152, 219, 0.1);
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
 }

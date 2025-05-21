@@ -1,36 +1,61 @@
 use actix_web::{web, HttpResponse, Result};
+use actix_identity::Identity;
+use sqlx::SqlitePool;
 use tera::Tera;
 use std::fs;
 use std::path::Path;
+use serde::{Deserialize, Serialize};
 use crate::utils::markdown::convert_markdown_to_html;
-use serde_json::from_str;
-use crate::modules::courses::models::Course;
+use crate::modules::users::model::Progress;
 
-pub async fn get_courses(tmpl: web::Data<Tera>) -> Result<HttpResponse> {
-    let courses_path = "content/courses.json";
-    let courses_json = fs::read_to_string(courses_path)
-        .map_err(|_| actix_web::error::ErrorInternalServerError("Failed to read courses"))?;
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Course {
+    id: String,
+    title: String,
+    description: String,
+    lessons: Vec<String>,
+    level: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    progress: Option<f64>,
+}
+
+pub async fn get_courses(
+    tmpl: web::Data<Tera>,
+    db: web::Data<SqlitePool>,
+    id: Identity,
+) -> Result<HttpResponse> {
+    // Read courses from JSON file
+    let courses_json = fs::read_to_string("content/courses.json")
+        .map_err(|_| actix_web::error::ErrorInternalServerError("Failed to read courses data"))?;
+    
+    // Parse courses
+    let mut courses: Vec<Course> = serde_json::from_str(&courses_json)
+        .map_err(|_| actix_web::error::ErrorInternalServerError("Failed to parse courses data"))?;
+    
+    // Get user ID if logged in
+    let user_id = id.id().ok();
+    
+    // If user is logged in, fetch progress data
+    if let Some(user_id) = &user_id {
+        // In a real app, fetch actual progress from database
+        // For now, we'll use dummy data
+        let progress_data = get_dummy_progress(user_id);
         
-    let courses: Vec<Course> = from_str(&courses_json)
-        .map_err(|_| actix_web::error::ErrorInternalServerError("Failed to parse courses"))?;
-    
-    // Group courses by level for better display
-    let mut beginner_courses = Vec::new();
-    let mut intermediate_courses = Vec::new();
-    let mut advanced_courses = Vec::new();
-    
-    for course in &courses {
-        match course.level.as_str() {
-            "beginner" => beginner_courses.push(course),
-            "intermediate" => intermediate_courses.push(course),
-            "advanced" => advanced_courses.push(course),
-            _ => {}
+        // Update course objects with progress data
+        for course in &mut courses {
+            if let Some(progress) = progress_data.iter().find(|p| p.lesson_id.starts_with(&course.id)) {
+                // In a real app, calculate actual percentage based on completed lessons
+                course.progress = Some(if progress.completed { 50.0 } else { 25.0 });
+            }
         }
     }
     
+    // Separate courses by level
+    let beginner_courses: Vec<&Course> = courses.iter().filter(|c| c.level == "beginner").collect();
+    let intermediate_courses: Vec<&Course> = courses.iter().filter(|c| c.level == "intermediate").collect();
+    let advanced_courses: Vec<&Course> = courses.iter().filter(|c| c.level == "advanced").collect();
+    
     let mut context = tera::Context::new();
-    context.insert("title", "All Courses");
-    context.insert("courses", &courses);
     context.insert("beginner_courses", &beginner_courses);
     context.insert("intermediate_courses", &intermediate_courses);
     context.insert("advanced_courses", &advanced_courses);
@@ -51,7 +76,7 @@ pub async fn get_course(
     let courses_json = fs::read_to_string(courses_path)
         .map_err(|_| actix_web::error::ErrorInternalServerError("Failed to read courses"))?;
         
-    let courses: Vec<Course> = from_str(&courses_json)
+    let courses: Vec<Course> = serde_json::from_str(&courses_json)
         .map_err(|_| actix_web::error::ErrorInternalServerError("Failed to parse courses"))?;
     
     let course = courses.iter().find(|c| c.id == id);
@@ -92,4 +117,24 @@ pub async fn get_course(
         },
         None => Ok(HttpResponse::NotFound().body("Course not found"))
     }
+}
+
+// Dummy function to simulate progress data - in a real app, this would query the database
+fn get_dummy_progress(user_id: &str) -> Vec<Progress> {
+    vec![
+        Progress {
+            id: Some(1),
+            user_id: user_id.to_string(),
+            lesson_id: "intro_to_it".to_string(),
+            completed: true,
+            completed_at: Some(chrono::Utc::now()),
+        },
+        Progress {
+            id: Some(2),
+            user_id: user_id.to_string(),
+            lesson_id: "programming_basics".to_string(),
+            completed: false,
+            completed_at: None,
+        },
+    ]
 }

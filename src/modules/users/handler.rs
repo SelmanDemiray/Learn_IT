@@ -1,19 +1,20 @@
 use actix_web::{web, HttpResponse, Result};
-use actix_identity::Identity;
+use actix_identity::{Identity, error::GetIdentityError};
 use sqlx::SqlitePool;
 use tera::Tera;
+use serde::{Deserialize, Serialize};
 
 use super::model::{User, Progress, UserProfile};
 
 pub async fn get_profile(
     tmpl: web::Data<Tera>,
-    db: web::Data<SqlitePool>,
+    _db: web::Data<SqlitePool>,
     id: Identity,
 ) -> Result<HttpResponse> {
     // Check if user is authenticated
-    let user_id = match id.identity() {
-        Some(id) => id,
-        None => return Ok(HttpResponse::Found().append_header(("LOCATION", "/auth/login")).finish()),
+    let user_id = match id.id() {
+        Ok(id) => id,
+        Err(_) => return Ok(HttpResponse::Unauthorized().finish()),
     };
     
     // In a real app, get user from database
@@ -53,13 +54,13 @@ pub async fn get_profile(
 
 pub async fn get_progress(
     tmpl: web::Data<Tera>,
-    db: web::Data<SqlitePool>,
+    _db: web::Data<SqlitePool>,
     id: Identity,
 ) -> Result<HttpResponse> {
     // Check if user is authenticated
-    let user_id = match id.identity() {
-        Some(id) => id,
-        None => return Ok(HttpResponse::Found().append_header(("LOCATION", "/auth/login")).finish()),
+    let user_id = match id.id() {
+        Ok(id) => id,
+        Err(_) => return Ok(HttpResponse::Unauthorized().finish()),
     };
     
     // Placeholder progress data
@@ -88,4 +89,52 @@ pub async fn get_progress(
         .map_err(|_| actix_web::error::ErrorInternalServerError("Template error"))?;
         
     Ok(HttpResponse::Ok().body(rendered))
+}
+
+// Add new structs for progress update API
+#[derive(Deserialize)]
+pub struct ProgressUpdateRequest {
+    courseId: String,
+    lessonId: String,
+    completed: bool,
+}
+
+#[derive(Serialize)]
+pub struct ProgressUpdateResponse {
+    success: bool,
+    progress: f64,
+    message: String,
+}
+
+// New API endpoint to update progress
+pub async fn update_progress(
+    req: web::Json<ProgressUpdateRequest>,
+    _db: web::Data<SqlitePool>,
+    id: Identity,
+) -> Result<HttpResponse> {
+    // Check if user is authenticated
+    let user_id = match id.id() {
+        Ok(id) => id,
+        Err(_) => return Ok(HttpResponse::Unauthorized().finish()),
+    };
+    
+    // In a real app, save progress to database
+    // Here we'll just simulate the update
+    let course_id = &req.courseId;
+    let lesson_id = &req.lessonId;
+    let completed = req.completed;
+    
+    log::info!("Progress update for user {}: Course {}, Lesson {}, Completed: {}", 
+        user_id, course_id, lesson_id, completed);
+        
+    // Calculate simulated progress based on lesson completion
+    // In a real app, this would query the database for actual completion percentage
+    let progress = if completed { 20.0 } else { 0.0 };
+    
+    // Return the updated progress information
+    Ok(HttpResponse::Ok().json(ProgressUpdateResponse {
+        success: true,
+        progress,
+        message: format!("Progress updated for lesson {} in course {}", lesson_id, course_id),
+    }))
 }

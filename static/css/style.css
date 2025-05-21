@@ -66,6 +66,7 @@ nav {
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
+    flex-wrap: nowrap;
 }
 
 .logo {
@@ -73,19 +74,33 @@ nav {
     font-weight: bold;
     display: flex;
     align-items: center;
+    flex-shrink: 0;
+    margin-right: 1rem;
 }
 
 .logo svg {
     margin-right: 0.5rem;
 }
 
+.logo a {
+    color: var(--text-light);
+    text-decoration: none;
+}
+
+.nav-container {
+    flex-grow: 1;
+    display: flex;
+}
+
 nav ul {
     display: flex;
     list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 nav ul li {
-    margin-left: 1rem;
+    margin: 0 0.5rem;
     position: relative;
 }
 
@@ -95,6 +110,7 @@ nav ul li a {
     padding: 0.5rem 1rem;
     border-radius: var(--border-radius);
     transition: var(--transition);
+    white-space: nowrap;
 }
 
 nav ul li a:hover {
@@ -103,6 +119,156 @@ nav ul li a:hover {
 
 nav ul li.active a {
     background-color: var(--primary-color);
+}
+
+/* Updated nav-actions styles */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    gap: 1rem;
+    flex-shrink: 0;
+}
+
+/* Search bar */
+.search-container {
+    position: relative;
+    margin-right: 0.5rem;
+}
+
+.search-input {
+    padding: 0.5rem 1rem 0.5rem 2.5rem;
+    border: none;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    width: 200px;
+    transition: var(--transition);
+}
+
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.search-input:focus {
+    background-color: rgba(255, 255, 255, 0.2);
+    outline: none;
+    width: 250px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* User menu */
+.user-menu {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Updated for mobile menu */
+.mobile-menu-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 101;
+}
+
+.mobile-menu-toggle span {
+    display: block;
+    width: 24px;
+    height: 3px;
+    margin: 4px 0;
+    background-color: white;
+    border-radius: 3px;
+    transition: var(--transition);
+}
+
+/* Improved responsive design */
+@media (max-width: 992px) {
+    nav {
+        padding: 0.5rem 0;
+    }
+    
+    .nav-container {
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--dark-color);
+        padding: 1rem;
+        display: none;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    }
+    
+    .nav-container.active {
+        display: flex;
+    }
+    
+    nav ul {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    nav ul li {
+        margin: 0;
+        width: 100%;
+    }
+    
+    nav ul li a {
+        display: block;
+        padding: 0.75rem 1rem;
+        width: 100%;
+    }
+    
+    .dropdown-content {
+        position: static;
+        display: none;
+        box-shadow: none;
+        padding-left: 1rem;
+    }
+    
+    .dropdown.active .dropdown-content {
+        display: block;
+    }
+    
+    .mobile-menu-toggle {
+        display: block;
+    }
+    
+    .nav-actions {
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 1rem;
+        gap: 1rem;
+    }
+    
+    .search-container {
+        width: 100%;
+        margin-right: 0;
+    }
+    
+    .search-input {
+        width: 100% !important;
+    }
+    
+    .user-menu {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .user-menu a {
+        flex: 1;
+        text-align: center;
+    }
 }
 
 /* Dropdown menu */
@@ -497,6 +663,44 @@ main {
     margin-bottom: 1rem;
 }
 
+/* Course completion indicator */
+.course-completed {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    background-color: var(--secondary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    animation: pulse 2s infinite;
+}
+
+.course-completed svg {
+    width: 18px;
+    height: 18px;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+    }
+    70% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 10px rgba(46, 204, 113, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
+    }
+}
+
 /* Progress indicator */
 .progress-bar {
     width: 100%;
@@ -645,41 +849,6 @@ footer {
 
 .dark-mode-toggle:hover {
     transform: scale(1.1);
-}
-
-/* Search bar */
-.search-container {
-    position: relative;
-    margin-left: auto;
-    margin-right: 1rem;
-}
-
-.search-input {
-    padding: 0.5rem 1rem 0.5rem 2.5rem;
-    border: none;
-    border-radius: 20px;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: white;
-    width: 200px;
-    transition: var(--transition);
-}
-
-.search-input::placeholder {
-    color: rgba(255, 255, 255, 0.6);
-}
-
-.search-input:focus {
-    background-color: rgba(255, 255, 255, 0.2);
-    outline: none;
-    width: 250px;
-}
-
-.search-icon {
-    position: absolute;
-    left: 0.75rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: rgba(255, 255, 255, 0.6);
 }
 
 /* Auth form styles */

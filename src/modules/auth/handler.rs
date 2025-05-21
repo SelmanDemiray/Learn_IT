@@ -10,6 +10,8 @@ use actix_web::HttpMessage;
 pub struct LoginForm {
     username: String,
     password: String,
+    #[serde(default)]
+    redirect: String,
 }
 
 #[derive(Deserialize)]
@@ -21,9 +23,20 @@ pub struct RegisterForm {
 }
 
 // Function names must match exactly what's being imported in routes.rs
-pub async fn login_page(tmpl: web::Data<Tera>) -> Result<HttpResponse> {
+pub async fn login_page(
+    req: HttpRequest,
+    tmpl: web::Data<Tera>
+) -> Result<HttpResponse> {
     let mut context = tera::Context::new();
     context.insert("title", "Login");
+    
+    // Get the redirect parameter from the query string
+    let query = req.query_string();
+    if query.contains("redirect=") {
+        let redirect = query.split("redirect=").collect::<Vec<&str>>()[1];
+        let redirect = redirect.split("&").collect::<Vec<&str>>()[0];
+        context.insert("redirect", &redirect);
+    }
     
     let rendered = tmpl.render("auth/login.html", &context)
         .map_err(|_| actix_web::error::ErrorInternalServerError("Template error"))?;
@@ -49,7 +62,14 @@ pub async fn login_user(
     
     Identity::login(&req.extensions(), user_id.to_string())?;
     
-    Ok(HttpResponse::Found().append_header(("LOCATION", "/")).finish())
+    // Handle redirect if present
+    let redirect_url = if !form.redirect.is_empty() {
+        form.redirect.clone()
+    } else {
+        "/".to_string()
+    };
+    
+    Ok(HttpResponse::Found().append_header(("LOCATION", redirect_url)).finish())
 }
 
 pub async fn register_page(tmpl: web::Data<Tera>) -> Result<HttpResponse> {

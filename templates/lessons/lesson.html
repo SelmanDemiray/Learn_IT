@@ -69,6 +69,21 @@
             <span class="nav-placeholder"></span>
             {% endif %}
         </div>
+
+        <!-- Add lesson progress tracking -->
+        <div class="lesson-progress-tracking">
+            <h3>Lesson Progress</h3>
+            <div class="progress-buttons">
+                <button class="btn outline mark-incomplete" onclick="trackProgress('{{ course_id }}', '{{ title | slugify }}', false)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                    Mark as Incomplete
+                </button>
+                <button class="btn primary mark-complete" onclick="trackProgress('{{ course_id }}', '{{ title | slugify }}', true)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    Mark as Complete
+                </button>
+            </div>
+        </div>
         
         <div class="lesson-additional">
             <div class="lesson-other-resources">
@@ -183,6 +198,83 @@
                     console.error('Could not copy text: ', err);
                 });
             });
+        });
+    }
+    
+    function trackProgress(courseId, lessonId, completed) {
+        // Check if user is logged in
+        const isLoggedIn = document.cookie.includes('session=') || localStorage.getItem('authToken');
+        
+        if (!isLoggedIn) {
+            // Redirect to login page if not logged in, preserving current URL as redirect target
+            window.location.href = `/auth/login?redirect=${encodeURIComponent(window.location.pathname)}`;
+            return;
+        }
+        
+        // Update progress via API
+        fetch('/api/progress', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                courseId,
+                lessonId, 
+                completed
+            })
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                // Show success message
+                const message = document.createElement('div');
+                message.className = 'progress-message success';
+                message.textContent = completed ? 
+                    'Lesson marked as complete!' : 
+                    'Lesson marked as incomplete';
+                
+                document.querySelector('.lesson-progress-tracking').appendChild(message);
+                
+                // Remove message after 3 seconds
+                setTimeout(() => {
+                    message.style.opacity = '0';
+                    setTimeout(() => message.remove(), 300);
+                }, 3000);
+                
+                // Update buttons state
+                document.querySelector('.mark-complete').disabled = completed;
+                document.querySelector('.mark-incomplete').disabled = !completed;
+                
+                // If completed and next lesson exists, show prompt
+                if (completed && document.querySelector('.next-button')) {
+                    const nextPrompt = document.createElement('div');
+                    nextPrompt.className = 'next-lesson-prompt';
+                    nextPrompt.innerHTML = `
+                        <p>Ready for the next lesson?</p>
+                        <a href="${document.querySelector('.next-button').href}" class="btn secondary">Continue Learning</a>
+                    `;
+                    document.querySelector('.lesson-progress-tracking').appendChild(nextPrompt);
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error updating progress:', error);
+            
+            // Show error message
+            const message = document.createElement('div');
+            message.className = 'progress-message error';
+            message.textContent = 'Error updating progress. Please try again.';
+            
+            document.querySelector('.lesson-progress-tracking').appendChild(message);
+            
+            // Remove message after 3 seconds
+            setTimeout(() => {
+                message.style.opacity = '0';
+                setTimeout(() => message.remove(), 300);
+            }, 3000);
         });
     }
 </script>
