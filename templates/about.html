@@ -6,42 +6,220 @@
 <div class="about-container">
     <div class="page-header">
         <h1>About IT Learning Platform</h1>
+        <p class="subtitle">Your comprehensive resource for mastering Information Technology skills</p>
     </div>
     
     <div class="about-content">
         <section class="about-section">
             <h2>Our Mission</h2>
-            <p>
-                Our mission is to provide accessible, comprehensive IT education for learners at all levels. 
-                Whether you're just starting your IT journey or looking to enhance your expertise with advanced topics, 
-                we have resources designed to help you achieve your learning goals.
-            </p>
+            <p>We believe that quality IT education should be accessible to everyone. Our platform provides structured, comprehensive learning paths that take you from complete beginner to advanced practitioner in various IT domains.</p>
         </section>
         
         <section class="about-section">
-            <h2>Who We Are</h2>
-            <p>
-                The IT Learning Platform was created by a team of IT professionals and educators passionate about
-                sharing knowledge and helping others build their technology skills in today's digital world.
-            </p>
+            <h2>What We Offer</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h3>Structured Learning</h3>
+                    <p>Carefully organized courses and lessons that build upon each other, ensuring you master fundamentals before moving to advanced topics.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Multiple Difficulty Levels</h3>
+                    <p>Content organized into Beginner, Intermediate, and Advanced levels to match your current skill level and learning goals.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Practical Focus</h3>
+                    <p>Real-world examples, hands-on exercises, and practical projects that prepare you for actual IT work environments.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Self-Paced Learning</h3>
+                    <p>Learn at your own pace with progress tracking and the ability to revisit materials whenever you need them.</p>
+                </div>
+            </div>
         </section>
         
         <section class="about-section">
-            <h2>Learning Methodology</h2>
-            <p>
-                Our content is structured by difficulty level, allowing you to progress naturally from fundamentals 
-                to advanced concepts. Each lesson includes practical examples, clear explanations, and additional
-                resources to enhance your learning experience.
-            </p>
+            <h2>Learning Paths</h2>
+            <div class="learning-paths">
+                <div class="path-card beginner">
+                    <h3>Beginner Path</h3>
+                    <ul>
+                        <li>Computer fundamentals and hardware basics</li>
+                        <li>Operating systems introduction</li>
+                        <li>Basic networking concepts</li>
+                        <li>Introduction to programming</li>
+                        <li>IT security awareness</li>
+                    </ul>
+                </div>
+                <div class="path-card intermediate">
+                    <h3>Intermediate Path</h3>
+                    <ul>
+                        <li>Advanced networking and protocols</li>
+                        <li>Database management systems</li>
+                        <li>Web development fundamentals</li>
+                        <li>System administration</li>
+                        <li>Cybersecurity practices</li>
+                    </ul>
+                </div>
+                <div class="path-card advanced">
+                    <h3>Advanced Path</h3>
+                    <ul>
+                        <li>Cloud computing and virtualization</li>
+                        <li>DevOps and automation</li>
+                        <li>Advanced cybersecurity</li>
+                        <li>Enterprise architecture</li>
+                        <li>AI and machine learning basics</li>
+                    </ul>
+                </div>
+            </div>
         </section>
         
         <section class="about-section">
-            <h2>Contact Us</h2>
-            <p>
-                If you have any questions, suggestions, or feedback, please don't hesitate to reach out to us at:
-                <a href="mailto:contact@itlearning.example">contact@itlearning.example</a>
-            </p>
+            <h2>Technology Stack</h2>
+            <p>This platform is built using modern, robust technologies:</p>
+            <ul class="tech-list">
+                <li><strong>Backend:</strong> Rust with Actix-web framework for high performance and safety</li>
+                <li><strong>Frontend:</strong> Modern HTML5, CSS3, and JavaScript with responsive design</li>
+                <li><strong>Database:</strong> SQLite for simplicity and portability</li>
+                <li><strong>Deployment:</strong> Docker containerization for easy deployment and scaling</li>
+                <li><strong>Content:</strong> Markdown-based lessons with syntax highlighting</li>
+            </ul>
+        </section>
+        
+        <section class="about-section cta-section">
+            <h2>Ready to Start Learning?</h2>
+            <p>Begin your IT journey today with our structured learning paths and comprehensive course materials.</p>
+            <div class="cta-buttons">
+                <a href="/courses" class="btn primary">Browse Courses</a>
+                <a href="/lessons/beginner" class="btn secondary">Start with Basics</a>
+            </div>
         </section>
     </div>
 </div>
+
+<style>
+.about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-md);
+}
+
+.about-content {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    padding: var(--space-xl);
+    margin-top: var(--space-xl);
+}
+
+.about-section {
+    margin-bottom: var(--space-2xl);
+}
+
+.about-section h2 {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: var(--space-sm);
+    margin-bottom: var(--space-lg);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+    margin-top: var(--space-lg);
+}
+
+.feature-item {
+    background: #f8f8f8;
+    padding: var(--space-lg);
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--primary-color);
+}
+
+.feature-item h3 {
+    color: var(--dark-color);
+    margin-bottom: var(--space-sm);
+}
+
+.learning-paths {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-lg);
+    margin-top: var(--space-lg);
+}
+
+.path-card {
+    padding: var(--space-lg);
+    border-radius: var(--border-radius);
+    color: white;
+}
+
+.path-card.beginner {
+    background: linear-gradient(135deg, var(--beginner-color), #27ae60);
+}
+
+.path-card.intermediate {
+    background: linear-gradient(135deg, var(--intermediate-color), #d35400);
+}
+
+.path-card.advanced {
+    background: linear-gradient(135deg, var(--danger-color), #c0392b);
+}
+
+.path-card h3 {
+    margin-bottom: var(--space-md);
+    font-size: 1.4rem;
+}
+
+.path-card ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.path-card li {
+    margin-bottom: var(--space-xs);
+    padding-left: var(--space-md);
+    position: relative;
+}
+
+.path-card li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+
+.tech-list {
+    background: #f8f8f8;
+    padding: var(--space-lg);
+    border-radius: var(--border-radius);
+    margin-top: var(--space-md);
+}
+
+.tech-list li {
+    margin-bottom: var(--space-sm);
+}
+
+.cta-section {
+    text-align: center;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    padding: var(--space-2xl);
+    border-radius: var(--border-radius);
+    margin-top: var(--space-2xl);
+}
+
+.cta-section h2 {
+    color: white;
+    border-bottom-color: rgba(255, 255, 255, 0.3);
+}
+
+.cta-buttons {
+    margin-top: var(--space-lg);
+}
+
+.cta-buttons .btn {
+    margin: 0 var(--space-sm);
+}
+</style>
 {% endblock %}

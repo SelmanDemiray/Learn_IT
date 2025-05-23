@@ -6,5 +6,6 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
         web::scope("/courses")
             .route("", web::get().to(handler::get_courses))
             .route("/", web::get().to(handler::get_courses))
+            .route("/{id}", web::get().to(handler::get_course))
     );
 }

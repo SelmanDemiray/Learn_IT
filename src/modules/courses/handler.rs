@@ -1,12 +1,9 @@
 use actix_web::{web, HttpResponse, Result};
-use actix_identity::Identity;
-use sqlx::SqlitePool;
 use tera::Tera;
 use std::fs;
 use std::path::Path;
 use serde::{Deserialize, Serialize};
 use crate::utils::markdown::convert_markdown_to_html;
-use crate::modules::users::model::Progress;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Course {
@@ -21,34 +18,18 @@ pub struct Course {
 
 pub async fn get_courses(
     tmpl: web::Data<Tera>,
-    db: web::Data<SqlitePool>,
-    id: Identity,
 ) -> Result<HttpResponse> {
-    // Read courses from JSON file
-    let courses_json = fs::read_to_string("content/courses.json")
-        .map_err(|_| actix_web::error::ErrorInternalServerError("Failed to read courses data"))?;
-    
-    // Parse courses
-    let mut courses: Vec<Course> = serde_json::from_str(&courses_json)
-        .map_err(|_| actix_web::error::ErrorInternalServerError("Failed to parse courses data"))?;
-    
-    // Get user ID if logged in
-    let user_id = id.id().ok();
-    
-    // If user is logged in, fetch progress data
-    if let Some(user_id) = &user_id {
-        // In a real app, fetch actual progress from database
-        // For now, we'll use dummy data
-        let progress_data = get_dummy_progress(user_id);
+    // Read courses from JSON file or create default courses if file doesn't exist
+    let courses = if Path::new("content/courses.json").exists() {
+        let courses_json = fs::read_to_string("content/courses.json")
+            .map_err(|_| actix_web::error::ErrorInternalServerError("Failed to read courses data"))?;
         
-        // Update course objects with progress data
-        for course in &mut courses {
-            if let Some(progress) = progress_data.iter().find(|p| p.lesson_id.starts_with(&course.id)) {
-                // In a real app, calculate actual percentage based on completed lessons
-                course.progress = Some(if progress.completed { 50.0 } else { 25.0 });
-            }
-        }
-    }
+        serde_json::from_str::<Vec<Course>>(&courses_json)
+            .map_err(|_| actix_web::error::ErrorInternalServerError("Failed to parse courses data"))?
+    } else {
+        // Create default courses based on available lessons
+        create_default_courses()
+    };
     
     // Separate courses by level
     let beginner_courses: Vec<&Course> = courses.iter().filter(|c| c.level == "beginner").collect();
@@ -71,13 +52,16 @@ pub async fn get_course(
     path: web::Path<String>
 ) -> Result<HttpResponse> {
     let id = path.into_inner();
-    let courses_path = "content/courses.json";
     
-    let courses_json = fs::read_to_string(courses_path)
-        .map_err(|_| actix_web::error::ErrorInternalServerError("Failed to read courses"))?;
-        
-    let courses: Vec<Course> = serde_json::from_str(&courses_json)
-        .map_err(|_| actix_web::error::ErrorInternalServerError("Failed to parse courses"))?;
+    let courses = if Path::new("content/courses.json").exists() {
+        let courses_json = fs::read_to_string("content/courses.json")
+            .map_err(|_| actix_web::error::ErrorInternalServerError("Failed to read courses"))?;
+            
+        serde_json::from_str::<Vec<Course>>(&courses_json)
+            .map_err(|_| actix_web::error::ErrorInternalServerError("Failed to parse courses"))?
+    } else {
+        create_default_courses()
+    };
     
     let course = courses.iter().find(|c| c.id == id);
     
@@ -119,22 +103,44 @@ pub async fn get_course(
     }
 }
 
-// Dummy function to simulate progress data - in a real app, this would query the database
-fn get_dummy_progress(user_id: &str) -> Vec<Progress> {
-    vec![
-        Progress {
-            id: Some(1),
-            user_id: user_id.to_string(),
-            lesson_id: "intro_to_it".to_string(),
-            completed: true,
-            completed_at: Some(chrono::Utc::now()),
-        },
-        Progress {
-            id: Some(2),
-            user_id: user_id.to_string(),
-            lesson_id: "programming_basics".to_string(),
-            completed: false,
-            completed_at: None,
-        },
-    ]
+// Helper function to create default courses based on available lesson files
+fn create_default_courses() -> Vec<Course> {
+    let mut courses = Vec::new();
+    let levels = vec!["beginner", "intermediate", "advanced"];
+    
+    for level in &levels {
+        let content_path = format!("content/{}", level);
+        let mut lessons = Vec::new();
+        
+        if let Ok(entries) = fs::read_dir(&content_path) {
+            for entry in entries {
+                if let Ok(entry) = entry {
+                    if let Some(file_name) = entry.file_name().to_str() {
+                        if file_name.ends_with(".md") {
+                            let lesson_id = file_name.trim_end_matches(".md");
+                            lessons.push(lesson_id.to_string());
+                        }
+                    }
+                }
+            }
+        }
+        
+        if !lessons.is_empty() {
+            courses.push(Course {
+                id: format!("{}_fundamentals", level),
+                title: format!("{} IT Fundamentals", level.to_uppercase()),
+                description: match *level {
+                    "beginner" => "Learn the basic concepts and principles of Information Technology".to_string(),
+                    "intermediate" => "Build upon your foundational knowledge with more complex IT topics".to_string(),
+                    "advanced" => "Master advanced IT concepts and specialized techniques".to_string(),
+                    _ => "IT Learning Course".to_string(),
+                },
+                lessons,
+                level: level.to_string(),
+                progress: None,
+            });
+        }
+    }
+    
+    courses
 }

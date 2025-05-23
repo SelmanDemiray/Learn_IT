@@ -256,6 +256,128 @@ function initProgressBars() {
     });
 }
 
+// Enhanced progress tracking function for lessons
+function trackProgress(courseId, lessonId, completed) {
+    // Show immediate feedback
+    const progressButtons = document.querySelector('.progress-buttons');
+    const existingMessage = document.querySelector('.progress-message');
+    
+    // Remove any existing message
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+    
+    // Disable buttons during request
+    const buttons = progressButtons.querySelectorAll('button');
+    buttons.forEach(btn => btn.disabled = true);
+    
+    // Create progress message
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'progress-message';
+    messageDiv.textContent = completed ? 'Marking as complete...' : 'Marking as incomplete...';
+    progressButtons.parentNode.appendChild(messageDiv);
+    
+    // Make the API request
+    fetch('/api/progress', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            courseId: courseId,
+            lessonId: lessonId,
+            completed: completed
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Update the message
+        messageDiv.className = 'progress-message success';
+        messageDiv.textContent = completed ? 
+            '✓ Lesson marked as complete!' : 
+            '○ Lesson marked as incomplete';
+        
+        // Show next lesson prompt if completed
+        if (completed) {
+            showNextLessonPrompt();
+        } else {
+            hideNextLessonPrompt();
+        }
+        
+        // Update button states
+        updateProgressButtons(completed);
+        
+        console.log('Progress updated successfully:', data);
+    })
+    .catch(error => {
+        console.error('Error updating progress:', error);
+        messageDiv.className = 'progress-message error';
+        messageDiv.textContent = '✗ Failed to update progress. Please try again.';
+    })
+    .finally(() => {
+        // Re-enable buttons
+        buttons.forEach(btn => btn.disabled = false);
+        
+        // Hide message after 3 seconds
+        setTimeout(() => {
+            if (messageDiv.parentNode) {
+                messageDiv.remove();
+            }
+        }, 3000);
+    });
+}
+
+function updateProgressButtons(completed) {
+    const completeBtn = document.querySelector('.mark-complete');
+    const incompleteBtn = document.querySelector('.mark-incomplete');
+    
+    if (completed) {
+        completeBtn.style.display = 'none';
+        incompleteBtn.style.display = 'inline-flex';
+    } else {
+        completeBtn.style.display = 'inline-flex';
+        incompleteBtn.style.display = 'none';
+    }
+}
+
+function showNextLessonPrompt() {
+    // Remove existing prompt
+    const existingPrompt = document.querySelector('.next-lesson-prompt');
+    if (existingPrompt) {
+        existingPrompt.remove();
+    }
+    
+    // Check if there's a next lesson
+    const nextLessonLink = document.querySelector('.next-button');
+    if (nextLessonLink) {
+        const prompt = document.createElement('div');
+        prompt.className = 'next-lesson-prompt';
+        prompt.innerHTML = `
+            <div>
+                <h3>Great job! 🎉</h3>
+                <p>You've completed this lesson. Ready for the next one?</p>
+            </div>
+            <a href="${nextLessonLink.href}" class="btn primary">Continue Learning</a>
+        `;
+        
+        // Insert after the progress tracking section
+        const progressSection = document.querySelector('.lesson-progress-tracking');
+        progressSection.parentNode.insertBefore(prompt, progressSection.nextSibling);
+    }
+}
+
+function hideNextLessonPrompt() {
+    const prompt = document.querySelector('.next-lesson-prompt');
+    if (prompt) {
+        prompt.remove();
+    }
+}
+
 // Improved course progress tracking
 function updateProgress(courseId, lessonId, completed) {
     // This would normally send an AJAX request to update progress
@@ -377,3 +499,140 @@ function setupCodeCopy() {
 window.addEventListener('beforeunload', function() {
     document.body.classList.add('page-transition');
 });
+
+// Table of Contents generation for lesson pages
+document.addEventListener('DOMContentLoaded', function() {
+    // Generate table of contents for lesson content
+    generateTableOfContents();
+    
+    // Initialize progress button states
+    initializeProgressButtons();
+});
+
+function generateTableOfContents() {
+    const tocContainer = document.getElementById('toc-container');
+    const lessonContent = document.querySelector('.lesson-content');
+    
+    if (!tocContainer || !lessonContent) return;
+    
+    const headings = lessonContent.querySelectorAll('h1, h2, h3, h4');
+    
+    if (headings.length === 0) {
+        tocContainer.innerHTML = '<p>No sections found</p>';
+        return;
+    }
+    
+    const tocList = document.createElement('ul');
+    tocList.className = 'toc-list';
+    
+    headings.forEach((heading, index) => {
+        // Create an ID for the heading if it doesn't have one
+        if (!heading.id) {
+            heading.id = `section-${index + 1}`;
+        }
+        
+        const listItem = document.createElement('li');
+        listItem.className = `toc-item toc-${heading.tagName.toLowerCase()}`;
+        
+        const link = document.createElement('a');
+        link.href = `#${heading.id}`;
+        link.textContent = heading.textContent;
+        link.onclick = function(e) {
+            e.preventDefault();
+            heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        };
+        
+        listItem.appendChild(link);
+        tocList.appendChild(listItem);
+    });
+    
+    tocContainer.appendChild(tocList);
+}
+
+function initializeProgressButtons() {
+    const progressButtons = document.querySelector('.progress-buttons');
+    if (!progressButtons) return;
+    
+    // For demo purposes, randomly set some lessons as completed
+    const isCompleted = Math.random() > 0.7; // 30% chance of being completed
+    updateProgressButtons(isCompleted);
+}
+
+// Search functionality with improved suggestions
+// Enhanced course filtering
+function filterCourses(level) {
+    // Update active button
+    document.querySelectorAll('.level-filters .filter-button').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Find and activate the correct button
+    const activeButton = Array.from(document.querySelectorAll('.level-filters .filter-button'))
+        .find(btn => {
+            const btnText = btn.textContent.toLowerCase();
+            return (level === 'all' && btnText.includes('all')) ||
+                   (level !== 'all' && btnText.includes(level));
+        });
+    
+    if (activeButton) {
+        activeButton.classList.add('active');
+    }
+    
+    // Show/hide appropriate sections
+    const sections = document.querySelectorAll('.course-section, .level-section');
+    sections.forEach(section => {
+        if (level === 'all') {
+            section.style.display = 'block';
+        } else {
+            const shouldShow = section.classList.contains(`${level}-section`) ||
+                             section.getAttribute('data-level') === level;
+            section.style.display = shouldShow ? 'block' : 'none';
+        }
+    });
+    
+    // Apply staggered animation to visible cards
+    const visibleCards = document.querySelectorAll('.course-section:not([style*="display: none"]) .course-card, .level-section:not([style*="display: none"]) .lesson-card');
+    visibleCards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        
+        setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, 50 * index);
+    });
+}
+
+// Function for level filtering on lessons page
+function showLevel(levelName) {
+    // Remove active class from all buttons
+    const buttons = document.querySelectorAll('.filter-button');
+    buttons.forEach(btn => btn.classList.remove('active'));
+    
+    // Add active class to clicked button
+    const activeButton = Array.from(buttons).find(btn => {
+        const btnText = btn.textContent.toLowerCase();
+        return (levelName === 'all' && btnText.includes('all')) ||
+               (levelName !== 'all' && btnText.includes(levelName));
+    });
+    
+    if (activeButton) {
+        activeButton.classList.add('active');
+    }
+    
+    // Show/hide level sections
+    const sections = document.querySelectorAll('.level-section');
+    sections.forEach(section => {
+        if (levelName === 'all' || section.id === levelName + '-section') {
+            section.style.display = 'block';
+        } else {
+            section.style.display = 'none';
+        }
+    });
+}
+
+// Make functions globally available
+window.trackProgress = trackProgress;
+window.filterCourses = filterCourses;
+window.showLevel = showLevel;
