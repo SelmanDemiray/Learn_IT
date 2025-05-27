@@ -1,0 +1,532 @@
+/* Flower Roadmap Styles */
+.roadmap-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: var(--space-md);
+    background: linear-gradient(135deg, #e8f5e8 0%, #f0f8ff 100%);
+    min-height: 100vh;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+    padding: var(--space-xl) 0;
+}
+
+.page-header h1 {
+    font-size: 3rem;
+    background: linear-gradient(45deg, #ff6b9d, #4ecdc4, #45b7d1);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: var(--space-md);
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+.progress-overview {
+    display: flex;
+    justify-content: center;
+    margin: var(--space-xl) 0;
+}
+
+.overall-progress {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
+    background: rgba(255, 255, 255, 0.9);
+    padding: var(--space-xl);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.progress-circle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-circle svg {
+    transform: rotate(-90deg);
+    filter: drop-shadow(0 4px 8px rgba(255, 107, 157, 0.3));
+}
+
+.progress-circle .progress-bar {
+    transition: stroke-dashoffset 2s ease-in-out;
+    stroke-linecap: round;
+}
+
+.progress-text {
+    position: absolute;
+    text-align: center;
+    font-weight: bold;
+}
+
+.progress-text .percentage {
+    display: block;
+    font-size: 1.5rem;
+    color: #ff6b9d;
+}
+
+.progress-text .label {
+    font-size: 0.8rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stats {
+    display: flex;
+    gap: var(--space-lg);
+}
+
+.stat {
+    text-align: center;
+    padding: var(--space-md);
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 15px;
+    min-width: 100px;
+}
+
+.stat .number {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #4CAF50;
+    margin-bottom: var(--space-xs);
+}
+
+.stat .label {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* Roadmap Path */
+.roadmap-path {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-2xl);
+    margin: var(--space-3xl) 0;
+    padding: var(--space-xl);
+}
+
+.path-connector {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.progress-path {
+    transition: stroke-dashoffset 3s ease-in-out;
+    filter: drop-shadow(0 2px 4px rgba(76, 175, 80, 0.3));
+}
+
+/* Learning Stages */
+.learning-stage {
+    position: relative;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 25px;
+    padding: var(--space-xl);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    border: 3px solid transparent;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.learning-stage.active {
+    border-color: #4CAF50;
+    box-shadow: 0 12px 40px rgba(76, 175, 80, 0.2);
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.learning-stage.completed {
+    border-color: #ff6b9d;
+    background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(255, 255, 255, 0.95));
+}
+
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 12px 40px rgba(76, 175, 80, 0.2); }
+    50% { box-shadow: 0 16px 50px rgba(76, 175, 80, 0.4); }
+}
+
+.stage-flower {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+}
+
+.flower-bloom {
+    font-size: 4rem;
+    margin-bottom: var(--space-md);
+    transition: all 0.5s ease;
+    animation: float 3s ease-in-out infinite;
+}
+
+.flower-bloom.seed {
+    opacity: 0.5;
+    transform: scale(0.8);
+}
+
+.flower-bloom.blooming {
+    animation: bloom 2s ease-in-out infinite;
+}
+
+.flower-bloom.bloomed {
+    animation: sparkle 2s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes bloom {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    25% { transform: scale(1.1) rotate(2deg); }
+    75% { transform: scale(1.05) rotate(-2deg); }
+}
+
+@keyframes sparkle {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.3) drop-shadow(0 0 10px rgba(255, 107, 157, 0.5)); }
+}
+
+.stage-progress {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+}
+
+.progress-ring {
+    width: 60px;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: var(--space-xs);
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4CAF50, #81C784);
+    border-radius: 4px;
+    transition: width 1s ease-in-out;
+}
+
+.progress-percentage {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+.stage-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.stage-content h3 {
+    margin-bottom: var(--space-sm);
+    font-size: 1.5rem;
+    color: #2c3e50;
+}
+
+.stage-content p {
+    color: #666;
+    margin-bottom: var(--space-lg);
+    font-style: italic;
+}
+
+.stage-lessons {
+    flex: 1;
+    margin-bottom: var(--space-lg);
+}
+
+.lesson-flower {
+    display: flex;
+    align-items: center;
+    padding: var(--space-sm);
+    margin-bottom: var(--space-xs);
+    border-radius: 10px;
+    transition: all 0.2s ease;
+}
+
+.lesson-flower.completed {
+    background: rgba(76, 175, 80, 0.1);
+    color: #4CAF50;
+}
+
+.lesson-flower.current {
+    background: rgba(255, 193, 7, 0.1);
+    color: #FFC107;
+    animation: glow-current 2s ease-in-out infinite;
+}
+
+.lesson-flower.locked {
+    opacity: 0.5;
+    color: #999;
+}
+
+@keyframes glow-current {
+    0%, 100% { box-shadow: 0 0 0 rgba(255, 193, 7, 0); }
+    50% { box-shadow: 0 0 20px rgba(255, 193, 7, 0.3); }
+}
+
+.flower-icon {
+    margin-right: var(--space-sm);
+    font-size: 1.2rem;
+}
+
+.lesson-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.stage-button {
+    padding: var(--space-md) var(--space-lg);
+    border-radius: 15px;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: auto;
+}
+
+.beginner-btn {
+    background: linear-gradient(135deg, #4CAF50, #81C784);
+    color: white;
+}
+
+.intermediate-btn {
+    background: linear-gradient(135deg, #FF9800, #FFB74D);
+    color: white;
+}
+
+.advanced-btn {
+    background: linear-gradient(135deg, #f44336, #ef5350);
+    color: white;
+}
+
+.expert-btn {
+    background: linear-gradient(135deg, #9C27B0, #BA68C8);
+    color: white;
+}
+
+.stage-button:hover:not(.disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.stage-button.disabled {
+    background: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Achievements Garden */
+.achievements-garden {
+    margin: var(--space-3xl) 0;
+    padding: var(--space-xl);
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 25px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.achievements-garden h2 {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+    font-size: 2rem;
+    color: #2c3e50;
+}
+
+.flower-collection {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--space-lg);
+}
+
+.achievement-flower {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-lg);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.achievement-flower.earned {
+    background: rgba(255, 107, 157, 0.1);
+    border: 2px solid rgba(255, 107, 157, 0.3);
+}
+
+.achievement-flower.locked {
+    opacity: 0.5;
+    filter: grayscale(100%);
+}
+
+.achievement-flower:hover.earned {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(255, 107, 157, 0.2);
+}
+
+.flower-container {
+    position: relative;
+    margin-bottom: var(--space-sm);
+}
+
+.flower-emoji {
+    font-size: 2.5rem;
+    display: block;
+}
+
+.achievement-glow {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 107, 157, 0.3), transparent);
+    opacity: 0;
+    animation: achievement-glow 2s ease-in-out infinite;
+}
+
+.achievement-glow.glowing {
+    opacity: 1;
+}
+
+@keyframes achievement-glow {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.2); opacity: 0.6; }
+}
+
+.achievement-name {
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: var(--space-xs);
+}
+
+.earned-date {
+    font-size: 0.7rem;
+    color: #666;
+    text-align: center;
+}
+
+.master-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-lg);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.master-badge.earned {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: white;
+    animation: crown-shine 3s ease-in-out infinite;
+}
+
+.master-badge.locked {
+    background: #f0f0f0;
+    color: #ccc;
+}
+
+@keyframes crown-shine {
+    0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
+    50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.6); }
+}
+
+.badge-icon {
+    font-size: 3rem;
+    margin-bottom: var(--space-sm);
+}
+
+.badge-name {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .roadmap-path {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+    }
+    
+    .overall-progress {
+        flex-direction: column;
+        gap: var(--space-lg);
+        text-align: center;
+    }
+    
+    .stats {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .page-header h1 {
+        font-size: 2rem;
+    }
+    
+    .flower-collection {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: var(--space-md);
+    }
+    
+    .path-connector {
+        display: none;
+    }
+}
+
+/* Animation delays for staggered effects */
+.learning-stage:nth-child(1) { animation-delay: 0s; }
+.learning-stage:nth-child(2) { animation-delay: 0.2s; }
+.learning-stage:nth-child(3) { animation-delay: 0.4s; }
+.learning-stage:nth-child(4) { animation-delay: 0.6s; }
+
+/* Tooltip for achievements */
+.achievement-flower[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    z-index: 1000;
+    animation: tooltip-appear 0.3s ease;
+}
+
+@keyframes tooltip-appear {
+    from { opacity: 0; transform: translateX(-50%) translateY(5px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}

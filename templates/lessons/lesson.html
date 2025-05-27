@@ -7,19 +7,19 @@
     <aside class="lesson-sidebar">
         <div class="sticky-sidebar">
             <div class="table-of-contents">
-                <h3>In This Lesson</h3>
+                <h4>Table of Contents</h4>
                 <div id="toc-container"></div>
             </div>
             
             <div class="lesson-metadata">
-                <div class="level-indicator">
-                    <span class="level-dot {{ level }}"></span>
-                    <span class="level-text">{{ level | title }} Level</span>
+                <h4>Lesson Info</h4>
+                <div class="meta-item">
+                    <span class="meta-label">Level:</span>
+                    <span class="level-badge {{ level }}">{{ level }}</span>
                 </div>
-                
-                <div class="estimated-time">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                    <span>~15 min read</span>
+                <div class="meta-item">
+                    <span class="meta-label">Est. Time:</span>
+                    <span>15 minutes</span>
                 </div>
             </div>
         </div>
@@ -28,9 +28,10 @@
     <div class="lesson-main">
         <div class="lesson-header">
             <div class="breadcrumbs">
-                <a href="/lessons">Lessons</a> / 
-                <a href="/lessons/{{ level }}">{{ level | title }}</a> / 
-                <span>{{ title }}</span>
+                <a href="/">Home</a> > 
+                <a href="/lessons">Lessons</a> > 
+                <a href="/lessons/{{ level }}">{{ level|title }}</a> > 
+                {{ title }}
             </div>
             <div class="level-badge {{ level }}">{{ level }}</div>
         </div>
@@ -42,84 +43,310 @@
         <div class="lesson-navigation">
             {% if prev_lesson %}
             <a href="/lessons/{{ level }}/{{ prev_lesson.id }}" class="nav-button prev-button">
-                <span class="arrow">←</span> 
-                <div class="nav-text">
-                    <span class="nav-label">Previous</span>
-                    <span class="nav-title">{{ prev_lesson.title }}</span>
-                </div>
+                ← Previous: {{ prev_lesson.title }}
             </a>
             {% else %}
             <span class="nav-placeholder"></span>
             {% endif %}
             
             <a href="/lessons/{{ level }}" class="nav-button back-button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                All {{ level | title }} lessons
+                Back to {{ level|title }} Lessons
             </a>
             
             {% if next_lesson %}
             <a href="/lessons/{{ level }}/{{ next_lesson.id }}" class="nav-button next-button">
-                <div class="nav-text">
-                    <span class="nav-label">Next</span>
-                    <span class="nav-title">{{ next_lesson.title }}</span>
-                </div>
-                <span class="arrow">→</span>
+                Next: {{ next_lesson.title }} →
             </a>
             {% else %}
             <span class="nav-placeholder"></span>
             {% endif %}
         </div>
-
-        <!-- Add lesson progress tracking -->
-        <div class="lesson-progress-tracking">
-            <h3>Lesson Progress</h3>
-            <div class="progress-buttons">
-                <button class="btn outline mark-incomplete" onclick="trackProgress('{{ course_id }}', '{{ title | slugify }}', false)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
-                    Mark as Incomplete
-                </button>
-                <button class="btn primary mark-complete" onclick="trackProgress('{{ course_id }}', '{{ title | slugify }}', true)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                    Mark as Complete
-                </button>
-            </div>
-        </div>
-        
-        <div class="lesson-additional">
-            <div class="lesson-other-resources">
-                <h3>Additional Resources</h3>
-                <ul class="resource-list">
-                    <li>
-                        <a href="#" target="_blank" class="resource-link">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                            Further Reading
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" target="_blank" class="resource-link">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                            Practice Exercises
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" target="_blank" class="resource-link">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                            Video Tutorial
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        
-            <div class="lesson-comments">
-                <h3>Questions & Comments</h3>
-                <div class="comment-form">
-                    <textarea placeholder="Share your thoughts or questions about this lesson..."></textarea>
-                    <button class="btn primary">Submit Comment</button>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
+
+<style>
+.lesson-container {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.lesson-sidebar {
+    position: relative;
+}
+
+.sticky-sidebar {
+    position: sticky;
+    top: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    padding: 20px;
+}
+
+.table-of-contents h4,
+.lesson-metadata h4 {
+    margin: 0 0 15px 0;
+    color: #2c3e50;
+    font-size: 1rem;
+}
+
+.toc-list {
+    list-style: none;
+    padding: 0;
+}
+
+.toc-item {
+    margin-bottom: 8px;
+}
+
+.toc-item a {
+    color: #6c757d;
+    text-decoration: none;
+    display: block;
+    padding: 5px 0;
+    font-size: 0.9rem;
+    border-left: 3px solid transparent;
+    padding-left: 10px;
+    transition: all 0.3s ease;
+}
+
+.toc-item a:hover {
+    color: #3498db;
+    border-left-color: #3498db;
+}
+
+.toc-h2 {
+    font-weight: 600;
+}
+
+.toc-h3 {
+    margin-left: 15px;
+    font-size: 0.85rem;
+}
+
+.lesson-metadata {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+}
+
+.meta-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.meta-label {
+    font-weight: 500;
+    color: #495057;
+}
+
+.lesson-main {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.lesson-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.breadcrumbs {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.breadcrumbs a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.breadcrumbs a:hover {
+    text-decoration: underline;
+}
+
+.level-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: white;
+}
+
+.level-badge.beginner {
+    background: #27ae60;
+}
+
+.level-badge.intermediate {
+    background: #f39c12;
+}
+
+.level-badge.advanced {
+    background: #e74c3c;
+}
+
+.lesson-content {
+    padding: 40px;
+    line-height: 1.7;
+    font-size: 1.1rem;
+}
+
+.lesson-content h1,
+.lesson-content h2,
+.lesson-content h3,
+.lesson-content h4 {
+    color: #2c3e50;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.lesson-content h1 {
+    font-size: 2.2rem;
+    margin-top: 0;
+}
+
+.lesson-content h2 {
+    font-size: 1.8rem;
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 10px;
+}
+
+.lesson-content p {
+    margin-bottom: 20px;
+    color: #495057;
+}
+
+.lesson-content pre {
+    background: #2d3748;
+    color: #e2e8f0;
+    padding: 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 20px 0;
+    position: relative;
+}
+
+.lesson-content code {
+    background: #f8f9fa;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Fira Code', monospace;
+    color: #e83e8c;
+}
+
+.lesson-content pre code {
+    background: none;
+    padding: 0;
+    color: inherit;
+}
+
+.copy-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.copy-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.copy-button.copied {
+    background: #27ae60;
+    border-color: #27ae60;
+}
+
+.lesson-navigation {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 20px;
+    padding: 30px;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+}
+
+.nav-button {
+    display: inline-block;
+    padding: 12px 20px;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.prev-button {
+    background: #6c757d;
+    color: white;
+    justify-self: start;
+}
+
+.prev-button:hover {
+    background: #5a6268;
+}
+
+.back-button {
+    background: #3498db;
+    color: white;
+}
+
+.back-button:hover {
+    background: #2980b9;
+}
+
+.next-button {
+    background: #27ae60;
+    color: white;
+    justify-self: end;
+}
+
+.next-button:hover {
+    background: #229954;
+}
+
+.nav-placeholder {
+    display: block;
+}
+
+@media (max-width: 992px) {
+    .lesson-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .sticky-sidebar {
+        position: static;
+    }
+    
+    .lesson-navigation {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .nav-button {
+        width: 100%;
+    }
+}
+</style>
 {% endblock %}
 
 {% block scripts %}
@@ -144,34 +371,30 @@
         if (!content || !toc) return;
         
         const headings = content.querySelectorAll('h2, h3');
-        if (headings.length < 3) return;
+        if (headings.length < 2) {
+            toc.innerHTML = '<p style="color: #6c757d; font-size: 0.9rem;">No sections found</p>';
+            return;
+        }
         
         const tocList = document.createElement('ul');
         tocList.className = 'toc-list';
         
         headings.forEach((heading, index) => {
-            // Add ID to heading if it doesn't have one
+            // Create an ID for the heading if it doesn't have one
             if (!heading.id) {
-                heading.id = `section-${index}`;
+                heading.id = `section-${index + 1}`;
             }
             
             const listItem = document.createElement('li');
-            listItem.className = heading.tagName === 'H3' ? 'toc-item toc-subitem' : 'toc-item';
+            listItem.className = `toc-item toc-${heading.tagName.toLowerCase()}`;
             
             const link = document.createElement('a');
             link.href = `#${heading.id}`;
             link.textContent = heading.textContent;
-            
-            // Add click handler for smooth scrolling
-            link.addEventListener('click', e => {
+            link.onclick = function(e) {
                 e.preventDefault();
-                const targetElement = document.getElementById(heading.id);
-                
-                window.scrollTo({
-                    top: targetElement.offsetTop - 100,
-                    behavior: 'smooth'
-                });
-            });
+                heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            };
             
             listItem.appendChild(link);
             tocList.appendChild(listItem);
@@ -182,22 +405,36 @@
     
     function setupCodeCopy() {
         document.querySelectorAll('pre').forEach(block => {
-            const button = document.createElement('button');
-            button.className = 'copy-button';
-            button.textContent = 'Copy';
-            block.appendChild(button);
-            
-            button.addEventListener('click', function() {
-                const code = block.querySelector('code').textContent;
-                navigator.clipboard.writeText(code).then(() => {
-                    button.textContent = 'Copied!';
-                    setTimeout(() => {
-                        button.textContent = 'Copy';
-                    }, 2000);
-                }).catch(err => {
-                    console.error('Could not copy text: ', err);
+            if (!block.querySelector('.copy-button')) {
+                const button = document.createElement('button');
+                button.className = 'copy-button';
+                button.textContent = 'Copy';
+                
+                block.appendChild(button);
+                
+                button.addEventListener('click', function() {
+                    const code = block.querySelector('code') ? 
+                        block.querySelector('code').textContent : 
+                        block.textContent.replace('Copy', '');
+                    
+                    navigator.clipboard.writeText(code).then(() => {
+                        button.textContent = 'Copied!';
+                        button.classList.add('copied');
+                        
+                        setTimeout(() => {
+                            button.textContent = 'Copy';
+                            button.classList.remove('copied');
+                        }, 2000);
+                    }).catch(err => {
+                        button.textContent = 'Failed!';
+                        console.error('Could not copy text: ', err);
+                        
+                        setTimeout(() => {
+                            button.textContent = 'Copy';
+                        }, 2000);
+                    });
                 });
-            });
+            }
         });
     }
     
@@ -206,8 +443,7 @@
         const isLoggedIn = document.cookie.includes('session=') || localStorage.getItem('authToken');
         
         if (!isLoggedIn) {
-            // Redirect to login page if not logged in, preserving current URL as redirect target
-            window.location.href = `/auth/login?redirect=${encodeURIComponent(window.location.pathname)}`;
+            console.log('User not logged in, skipping progress tracking');
             return;
         }
         
@@ -218,63 +454,21 @@
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                courseId,
-                lessonId, 
-                completed
+                courseId: courseId,
+                lessonId: lessonId,
+                completed: completed
             })
         })
         .then(response => {
-            if (!response.ok) throw new Error('Network response was not ok');
             return response.json();
         })
         .then(data => {
             if (data.success) {
-                // Show success message
-                const message = document.createElement('div');
-                message.className = 'progress-message success';
-                message.textContent = completed ? 
-                    'Lesson marked as complete!' : 
-                    'Lesson marked as incomplete';
-                
-                document.querySelector('.lesson-progress-tracking').appendChild(message);
-                
-                // Remove message after 3 seconds
-                setTimeout(() => {
-                    message.style.opacity = '0';
-                    setTimeout(() => message.remove(), 300);
-                }, 3000);
-                
-                // Update buttons state
-                document.querySelector('.mark-complete').disabled = completed;
-                document.querySelector('.mark-incomplete').disabled = !completed;
-                
-                // If completed and next lesson exists, show prompt
-                if (completed && document.querySelector('.next-button')) {
-                    const nextPrompt = document.createElement('div');
-                    nextPrompt.className = 'next-lesson-prompt';
-                    nextPrompt.innerHTML = `
-                        <p>Ready for the next lesson?</p>
-                        <a href="${document.querySelector('.next-button').href}" class="btn secondary">Continue Learning</a>
-                    `;
-                    document.querySelector('.lesson-progress-tracking').appendChild(nextPrompt);
-                }
+                console.log('Progress updated successfully');
             }
         })
         .catch(error => {
             console.error('Error updating progress:', error);
-            
-            // Show error message
-            const message = document.createElement('div');
-            message.className = 'progress-message error';
-            message.textContent = 'Error updating progress. Please try again.';
-            
-            document.querySelector('.lesson-progress-tracking').appendChild(message);
-            
-            // Remove message after 3 seconds
-            setTimeout(() => {
-                message.style.opacity = '0';
-                setTimeout(() => message.remove(), 300);
-            }, 3000);
         });
     }
 </script>

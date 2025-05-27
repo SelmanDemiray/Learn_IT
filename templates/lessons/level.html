@@ -9,55 +9,250 @@
             <h1>{{ title }}</h1>
             <p class="level-description">
                 {% if level == "beginner" %}
-                These lessons are designed for those new to IT, covering fundamental concepts and building a strong foundation.
+                Start your IT journey with foundational concepts and core principles.
                 {% elif level == "intermediate" %}
-                These lessons are for those with basic IT knowledge, diving deeper into more complex topics.
+                Build upon your knowledge with more complex topics and practical applications.
                 {% else %}
-                These advanced lessons cover expert-level topics for experienced IT professionals looking to specialize.
+                Master specialized topics and expert-level concepts in information technology.
                 {% endif %}
             </p>
+            <div class="level-stats">
+                <span class="lesson-count">{{ lessons|length }} lessons available</span>
+                <span class="estimated-time">~{{ lessons|length * 15 }} minutes total</span>
+            </div>
         </div>
-        <div class="level-icon {{ level }}-icon"></div>
+        <div class="level-icon">
+            {% if level == "beginner" %}🌱
+            {% elif level == "intermediate" %}🌿
+            {% else %}🌳
+            {% endif %}
+        </div>
     </div>
-    
+
     <div class="lessons-grid">
         {% for lesson in lessons %}
         <div class="lesson-card">
-            <div class="lesson-card-header {{ level }}">
-                <div class="lesson-number">Lesson {{ loop.index }}</div>
+            <div class="lesson-card-header">
+                <div class="lesson-number">{{ loop.index }}</div>
+                <div class="level-badge {{ level }}">{{ level }}</div>
             </div>
             <div class="lesson-card-body">
-                <h3 class="lesson-title">{{ lesson.title }}</h3>
+                <h3>{{ lesson.title }}</h3>
+                <p class="lesson-preview">{{ lesson.preview }}</p>
                 <div class="lesson-actions">
-                    <a href="/lessons/{{ level }}/{{ lesson.id }}" class="btn primary">View Lesson</a>
+                    <a href="/lessons/{{ level }}/{{ lesson.id }}" class="btn primary">Start Learning</a>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
-    
-    <div class="level-navigation">
-        <a href="/lessons" class="btn outline">All Lessons</a>
-        
-        <div class="level-switcher">
-            {% if level != "beginner" %}
-            <a href="/lessons/beginner" class="level-link beginner">
-                <span class="switcher-badge beginner"></span>Beginner
-            </a>
-            {% endif %}
-            
-            {% if level != "intermediate" %}
-            <a href="/lessons/intermediate" class="level-link intermediate">
-                <span class="switcher-badge intermediate"></span>Intermediate
-            </a>
-            {% endif %}
-            
-            {% if level != "advanced" %}
-            <a href="/lessons/advanced" class="level-link advanced">
-                <span class="switcher-badge advanced"></span>Advanced
-            </a>
-            {% endif %}
-        </div>
+
+    {% if lessons|length == 0 %}
+    <div class="no-lessons">
+        <h3>No lessons available yet</h3>
+        <p>Lessons for this level are coming soon!</p>
+        <a href="/lessons" class="btn secondary">Browse All Lessons</a>
     </div>
+    {% endif %}
 </div>
+
+<style>
+.level-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.level-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 40px;
+    border-radius: 15px;
+    margin-bottom: 40px;
+    color: white;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+.level-header.beginner {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+}
+
+.level-header.intermediate {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+}
+
+.level-header.advanced {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.header-content h1 {
+    margin: 0 0 15px 0;
+    font-size: 2.5rem;
+}
+
+.level-description {
+    margin: 0 0 20px 0;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.level-stats {
+    display: flex;
+    gap: 20px;
+    font-size: 0.9rem;
+}
+
+.level-icon {
+    font-size: 4rem;
+    opacity: 0.8;
+}
+
+.lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.lesson-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lesson-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.lesson-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.lesson-number {
+    background: #3498db;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.level-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: white;
+}
+
+.level-badge.beginner {
+    background: #27ae60;
+}
+
+.level-badge.intermediate {
+    background: #f39c12;
+}
+
+.level-badge.advanced {
+    background: #e74c3c;
+}
+
+.lesson-card-body {
+    padding: 25px;
+}
+
+.lesson-card-body h3 {
+    margin: 0 0 15px 0;
+    color: #2c3e50;
+    font-size: 1.3rem;
+}
+
+.lesson-preview {
+    color: #6c757d;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.lesson-actions {
+    text-align: center;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn.primary {
+    background: #3498db;
+    color: white;
+}
+
+.btn.primary:hover {
+    background: #2980b9;
+    transform: translateY(-1px);
+}
+
+.btn.secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn.secondary:hover {
+    background: #5a6268;
+}
+
+.no-lessons {
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.no-lessons h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.no-lessons p {
+    color: #6c757d;
+    margin-bottom: 25px;
+}
+
+@media (max-width: 768px) {
+    .level-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+    
+    .level-stats {
+        justify-content: center;
+    }
+    
+    .lessons-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
 {% endblock %}

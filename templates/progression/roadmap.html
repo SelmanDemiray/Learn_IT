@@ -1,0 +1,439 @@
+{% extends "base.html" %}
+
+{% block title %}My Learning Progress - IT Learning Platform{% endblock %}
+
+{% block content %}
+<div class="progress-roadmap-container">
+    <div class="progress-header">
+        <h1>🌸 My Learning Progress</h1>
+        <p class="subtitle">Track your journey through IT concepts</p>
+        
+        <div class="user-stats">
+            <div class="stat-card">
+                <div class="stat-icon">📚</div>
+                <div>
+                    <span class="stat-number">12</span>
+                    <span class="stat-label">Lessons Completed</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🎯</div>
+                <div>
+                    <span class="stat-number">3</span>
+                    <span class="stat-label">Courses In Progress</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⭐</div>
+                <div>
+                    <span class="stat-number">85%</span>
+                    <span class="stat-label">Overall Progress</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏆</div>
+                <div>
+                    <span class="stat-number">5</span>
+                    <span class="stat-label">Achievements</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="progress-stages">
+        <div class="stage-container beginner completed">
+            <div class="stage-header">
+                <h2>Beginner Level</h2>
+                <div class="stage-progress">
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 100%; background: linear-gradient(90deg, #27ae60, #2ecc71);"></div>
+                    </div>
+                    <span class="progress-text">Completed!</span>
+                </div>
+            </div>
+            <div class="lessons-progress">
+                <div class="lesson-progress-item completed">
+                    <div class="lesson-status">✓</div>
+                    <div class="lesson-info">
+                        <h4>Computer Basics</h4>
+                        <span class="completion-date">Completed 2 weeks ago</span>
+                    </div>
+                </div>
+                <div class="lesson-progress-item completed">
+                    <div class="lesson-status">✓</div>
+                    <div class="lesson-info">
+                        <h4>Operating Systems</h4>
+                        <span class="completion-date">Completed 1 week ago</span>
+                    </div>
+                </div>
+                <div class="lesson-progress-item completed">
+                    <div class="lesson-status">✓</div>
+                    <div class="lesson-info">
+                        <h4>Software Basics</h4>
+                        <span class="completion-date">Completed 3 days ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stage-container intermediate">
+            <div class="stage-header">
+                <h2>Intermediate Level</h2>
+                <div class="stage-progress">
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 60%; background: linear-gradient(90deg, #f39c12, #e67e22);"></div>
+                    </div>
+                    <span class="progress-text">60% Complete</span>
+                </div>
+            </div>
+            <div class="lessons-progress">
+                <div class="lesson-progress-item completed">
+                    <div class="lesson-status">✓</div>
+                    <div class="lesson-info">
+                        <h4>Programming Concepts</h4>
+                        <span class="completion-date">Completed yesterday</span>
+                    </div>
+                </div>
+                <div class="lesson-progress-item current">
+                    <div class="lesson-status">▶</div>
+                    <div class="lesson-info">
+                        <h4>Database Fundamentals</h4>
+                        <span class="completion-date">In progress</span>
+                    </div>
+                </div>
+                <div class="lesson-progress-item locked">
+                    <div class="lesson-status">🔒</div>
+                    <div class="lesson-info">
+                        <h4>Web Development</h4>
+                        <span class="completion-date">Locked</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stage-container advanced">
+            <div class="stage-header">
+                <h2>Advanced Level</h2>
+                <div class="stage-progress">
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 0%; background: linear-gradient(90deg, #e74c3c, #c0392b);"></div>
+                    </div>
+                    <span class="progress-text">Not started</span>
+                </div>
+            </div>
+            <div class="lessons-progress">
+                <div class="lesson-progress-item locked">
+                    <div class="lesson-status">🔒</div>
+                    <div class="lesson-info">
+                        <h4>Cloud Computing</h4>
+                        <span class="completion-date">Locked</span>
+                    </div>
+                </div>
+                <div class="lesson-progress-item locked">
+                    <div class="lesson-status">🔒</div>
+                    <div class="lesson-info">
+                        <h4>DevOps & Automation</h4>
+                        <span class="completion-date">Locked</span>
+                    </div>
+                </div>
+                <div class="lesson-progress-item locked">
+                    <div class="lesson-status">🔒</div>
+                    <div class="lesson-info">
+                        <h4>Cybersecurity</h4>
+                        <span class="completion-date">Locked</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="achievements-section">
+        <h2>🏆 Achievements</h2>
+        <div class="achievements-grid">
+            <div class="achievement-card earned">
+                <div class="achievement-icon">🎯</div>
+                <div class="achievement-info">
+                    <h4>First Steps</h4>
+                    <p>Completed your first lesson</p>
+                    <span class="earned-date">Earned 2 weeks ago</span>
+                </div>
+            </div>
+            <div class="achievement-card earned">
+                <div class="achievement-icon">📚</div>
+                <div class="achievement-info">
+                    <h4>Knowledge Seeker</h4>
+                    <p>Completed 10 lessons</p>
+                    <span class="earned-date">Earned 3 days ago</span>
+                </div>
+            </div>
+            <div class="achievement-card">
+                <div class="achievement-icon">🔥</div>
+                <div class="achievement-info">
+                    <h4>On Fire</h4>
+                    <p>Complete 5 lessons in a week</p>
+                    <span class="earned-date">Not earned yet</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.progress-roadmap-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.progress-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.progress-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.subtitle {
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+.user-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.stat-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.stat-icon {
+    font-size: 2rem;
+}
+
+.stat-number {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.stat-label {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+.progress-stages {
+    display: grid;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.stage-container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.stage-container.beginner {
+    border-left: 5px solid #27ae60;
+}
+
+.stage-container.intermediate {
+    border-left: 5px solid #f39c12;
+}
+
+.stage-container.advanced {
+    border-left: 5px solid #e74c3c;
+}
+
+.stage-container.completed {
+    background: linear-gradient(135deg, #f8fff8, #e8f8e8);
+}
+
+.stage-header {
+    padding: 25px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.stage-header h2 {
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.stage-progress {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.progress-bar {
+    flex-grow: 1;
+    height: 12px;
+    background: #e9ecef;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+}
+
+.progress-text {
+    font-weight: 500;
+    color: #495057;
+}
+
+.lessons-progress {
+    padding: 20px 25px;
+}
+
+.lesson-progress-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 0;
+    border-bottom: 1px solid #f8f9fa;
+    transition: background-color 0.2s ease;
+}
+
+.lesson-progress-item:hover {
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 0 -10px;
+    padding: 15px 10px;
+}
+
+.lesson-progress-item.completed {
+    opacity: 0.8;
+}
+
+.lesson-progress-item.completed .lesson-status {
+    color: #27ae60;
+}
+
+.lesson-progress-item.current {
+    background: linear-gradient(135deg, #fff3cd, #f8f9fa);
+    border-radius: 8px;
+    margin: 0 -10px;
+    padding: 15px 10px;
+}
+
+.lesson-progress-item.current .lesson-status {
+    color: #f39c12;
+}
+
+.lesson-progress-item.locked {
+    opacity: 0.5;
+}
+
+.lesson-progress-item.locked .lesson-status {
+    color: #6c757d;
+}
+
+.lesson-status {
+    font-size: 1.2rem;
+    font-weight: bold;
+    width: 30px;
+    text-align: center;
+}
+
+.lesson-info h4 {
+    margin: 0 0 5px 0;
+    color: #2c3e50;
+}
+
+.completion-date {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.achievements-section {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.achievements-section h2 {
+    margin-bottom: 25px;
+    color: #2c3e50;
+}
+
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.achievement-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    border-radius: 10px;
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.achievement-card.earned {
+    background: linear-gradient(135deg, #fff3cd, #f8f9fa);
+    border-color: #ffc107;
+}
+
+.achievement-icon {
+    font-size: 2rem;
+}
+
+.achievement-info h4 {
+    margin: 0 0 5px 0;
+    color: #2c3e50;
+}
+
+.achievement-info p {
+    margin: 0 0 5px 0;
+    color: #495057;
+    font-size: 0.9rem;
+}
+
+.earned-date {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+@media (max-width: 768px) {
+    .user-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .stage-progress {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    
+    .lesson-progress-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .achievements-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{% endblock %}
